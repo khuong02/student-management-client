@@ -18,7 +18,7 @@ $carousel-slide-color: #000
         height: 100vh
         position: relative
         background: linear-gradient(#141e30, #243b55)
-        .login-box
+        .form-box
             position: absolute
             top: 50%
             left: 50%
@@ -29,6 +29,21 @@ $carousel-slide-color: #000
             box-sizing: border-box
             box-shadow: 0 15px 25px rgba(0,0,0,.6)
             border-radius: 10px
+            // transition: 0.2s ease-in-out
+            button
+                position: relative
+                display: inline-block
+                color: #fff
+                background: transparent
+                font-size: 14px
+                text-transform: uppercase
+                overflow: hidden
+                transition: .5s
+                padding: 0
+                letter-spacing: 4px
+                padding-bottom: 15px
+                &:hover
+                    color: #03e9f4
             h2
                 margin: 0 0 30px
                 padding: 0
@@ -42,7 +57,7 @@ $carousel-slide-color: #000
                         padding: 10px 0
                         font-size: 18px
                         color: #fff
-                        margin-bottom: 30px
+                        margin-bottom: 15px
                         border: none
                         border-bottom: 1px solid #fff
                         outline: none

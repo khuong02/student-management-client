@@ -3,7 +3,7 @@ import React from "react";
 import Slider from "react-slick";
 
 import { Routes, Route } from "react-router-dom";
-import Admission from "./Admission";
+import Admission from "./Admission.jsx";
 import Login from "./Login";
 
 const AuthPage = () => {
@@ -55,13 +55,14 @@ const AuthPage = () => {
   );
 };
 
-const Index = () => {
+const Auth = () => {
   return (
     <div className="auth-page">
       <div className="col-sm-5">
         <Routes>
           <Route path="login" element={<Login />} />
           <Route path="admission" element={<Admission />} />
+          <Route path="*" element={<div>Not found</div>} />
         </Routes>
       </div>
       <AuthPage />
@@ -69,4 +70,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Auth;

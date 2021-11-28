@@ -6,7 +6,7 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="container-form d-flex justify-content-center align-items-center">
-        <div className="login-box">
+        <div className="form-box">
           <h2>Login</h2>
           <form>
             <div className="user-box">
@@ -26,7 +26,10 @@ const Login = () => {
             </button>
           </form>
           <div className="mt-3 box-link">
-            <Link className="text-decoration-none link-auth" to="/admission">
+            <Link
+              className="text-decoration-none link-auth"
+              to="/user/admission"
+            >
               Đăng ký ngành học !
             </Link>
           </div>
