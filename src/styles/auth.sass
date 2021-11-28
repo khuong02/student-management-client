@@ -1,13 +1,19 @@
 $carousel-slide-color: #000
 
-.login-page
+.slick-slide
+    img
+        height: 100vh
+
+.auth-page
     overflow: hidden
     height: 100vh
+    display: flex
     .carousel-slide
         .slick-list
             height: 100vh!important
             .slide
                 height: 100vh
+    // .login-page
     .container-form
         height: 100vh
         position: relative
@@ -142,6 +148,3 @@ $carousel-slide-color: #000
 
     50%,100%
         bottom: 100%
-
-.container
-    max-width: 100vw!important

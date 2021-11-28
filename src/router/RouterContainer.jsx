@@ -3,16 +3,14 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "../components/home/Home";
-import Login from "../auth/Login";
-import Admission from "../auth/Admission";
+import Index from "../auth/Index";
 
 const RouterContainer = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admission" element={<Admission />} />
+        <Route path="/*" element={<Index />} />
       </Routes>
     </Router>
   );
