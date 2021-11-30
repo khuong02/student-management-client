@@ -52,7 +52,7 @@ const BoxAdmissionTeacher = () => {
 
 const Admission = () => {
   const [check, setCheck] = useState(true);
-  console.log(check);
+
   return (
     <div className="admission-page">
       <div className="container-form d-flex justify-content-center align-items-center">
