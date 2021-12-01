@@ -10,9 +10,9 @@ const drawerWidth = 340;
 
 const DefaultLayout = () => {
   return (
-    <Box>
+    <Box style={{ height: "100vh" }}>
       <Notice drawerWidth={drawerWidth} />
-      <Box style={{ display: "flex" }}>
+      <Box style={{ display: "flex", height: "calc(100vh - 64px)" }}>
         <Navbar />
         <Body />
       </Box>

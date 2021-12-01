@@ -2,8 +2,8 @@ import React from "react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Auth from "../auth/Auth";
-import DefaultLayout from "../layout/DefaultLayout";
+const DefaultLayout = React.lazy(() => import("../layout/DefaultLayout"));
+const Auth = React.lazy(() => import("../auth/Auth"));
 
 const RouterContainer = () => {
   return (
