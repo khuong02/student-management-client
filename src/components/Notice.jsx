@@ -15,10 +15,6 @@ const Notice = ({ drawerWidth }) => {
         style={{
           background: "linear-gradient(#141e30, #243b55)",
         }}
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
       >
         <Toolbar>
           <Box sx={{ flexGrow: 1 }} />

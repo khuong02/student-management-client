@@ -9,8 +9,6 @@ import {
   Box,
   Avatar,
 } from "@mui/material";
-import { listItemClasses } from "@mui/material/ListItem";
-import { makeStyles } from "@mui/styles";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ClassIcon from "@mui/icons-material/Class";
@@ -19,53 +17,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 import { Link, useLocation } from "react-router-dom";
 
-const useStyle = makeStyles((theme) => ({
-  drawerPaper: {
-    width: "inherit",
-    background: "#0e1723",
-  },
-  listItemStyle: {
-    background: "#000",
-  },
-  link: {
-    textDecoration: "none",
-    color: "#03e9f4",
-    "&:hover": {
-      color: "#03e9f4",
-    },
-  },
-  icon: {
-    color: "#03e9f4",
-  },
-  navigationSpacer: {
-    flex: 1,
-  },
-  boxAvatar: {
-    height: "300px",
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  avatar: {
-    width: "100px",
-    height: "100px",
-    margin: "auto",
-    fontSize: "50px",
-  },
-}));
-
-const defaultList = {
-  [`& .active, & .${listItemClasses.root}:hover`]: {
-    color: "#03e9f4",
-    fontWeight: "bold",
-    background: "#000",
-    "& svg": {
-      fill: "#03e9f4",
-    },
-  },
-};
+import { useStyle, defaultList } from "../styles/useStyle";
 
 const Navbar = () => {
   const classes = useStyle();
@@ -108,7 +60,10 @@ const Navbar = () => {
           <Avatar className={classes.avatar}>K</Avatar>
           <List>
             <ListItem>
-              <ListItemText primary="Dao Vinh Khuong" />
+              <ListItemText
+                style={{ textAlign: "center" }}
+                primary="Dao Vinh Khuong"
+              />
             </ListItem>
           </List>
         </Link>
@@ -119,7 +74,7 @@ const Navbar = () => {
             <Link to={item.path} className={classes.link}>
               <ListItem
                 button
-                className={item.path === pathname && classes.listItemStyle}
+                className={item.path === pathname ? classes.listItemStyle : ""}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.name} />

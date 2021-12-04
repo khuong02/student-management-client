@@ -10,11 +10,23 @@ const drawerWidth = 340;
 
 const DefaultLayout = () => {
   return (
-    <Box style={{ height: "100vh" }}>
-      <Notice drawerWidth={drawerWidth} />
-      <Box style={{ display: "flex", height: "calc(100vh - 64px)" }}>
-        <Navbar />
-        <Body />
+    <Box style={{ height: "100vh" }} sx={{ display: "flex" }}>
+      <Navbar />
+      <Box
+        component="main"
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
+        <Notice drawerWidth={drawerWidth} />
+        <Box
+          style={{
+            height: "calc(100% - 64px)",
+            overflow: "hidden",
+          }}
+        >
+          <Body />
+        </Box>
       </Box>
     </Box>
   );

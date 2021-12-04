@@ -28,7 +28,7 @@ const Login = () => {
           <div className="mt-3 box-link">
             <Link
               className="text-decoration-none link-auth"
-              to="/user/admission"
+              to="/auth/admission"
             >
               Đăng ký ngành học !
             </Link>
