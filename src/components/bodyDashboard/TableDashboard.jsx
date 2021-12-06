@@ -12,7 +12,7 @@ import Paper from "@mui/material/Paper";
 const TableDashboard = (props) => {
   const { data } = props;
   return (
-    <TableContainer component={Paper} style={{ height: "100%" }}>
+    <TableContainer component={Paper} style={{ minHeight: "100%" }}>
       <h5
         style={{
           textAlign: "center",
@@ -22,7 +22,7 @@ const TableDashboard = (props) => {
       >
         Start Students
       </h5>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: "50%" }} aria-label="simple table">
         <TableHead style={{ background: "#ddd" }}>
           <TableRow>
             <TableCell>ID</TableCell>

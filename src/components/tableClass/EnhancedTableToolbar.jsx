@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import OptionClass from "./OptionClass";
 
 const EnhancedTableToolbar = (props) => {
-  const { numSelected, setValue } = props;
+  const { numSelected, handleFilterChange, handleSearch } = props;
 
   return (
     <Toolbar
@@ -38,12 +38,12 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{ flex: "1 1 100%", textTransform: "uppercase" }}
           variant="h6"
           id="tableTitle"
           component="div"
         >
-          Table Classes
+          list classes
         </Typography>
       )}
 
@@ -55,7 +55,10 @@ const EnhancedTableToolbar = (props) => {
         </Tooltip>
       ) : (
         <>
-          <OptionClass setValue={setValue} />
+          <OptionClass
+            handleFilterChange={handleFilterChange}
+            handleSearch={handleSearch}
+          />
         </>
       )}
     </Toolbar>
@@ -64,7 +67,13 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
-  setValue: PropTypes.func.isRequired,
+  handleFilterChange: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+};
+
+EnhancedTableToolbar.defaultProps = {
+  handleFilterChange: null,
+  handleSearch: null,
 };
 
 export default EnhancedTableToolbar;

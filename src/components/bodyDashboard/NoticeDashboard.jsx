@@ -11,7 +11,7 @@ import ListItemText from "@mui/material/ListItemText";
 const NoticeDashboard = (props) => {
   const { classes, data } = props;
   return (
-    <TableContainer component={Paper} style={{ height: "100%" }}>
+    <TableContainer component={Paper} style={{ minHeight: "100%" }}>
       <h5
         style={{
           textAlign: "center",

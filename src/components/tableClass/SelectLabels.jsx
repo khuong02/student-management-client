@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -6,38 +6,38 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 function SelectLabels(props) {
-  //   console.log(props);
-  const { setValue, optionName, optionFilter } = props;
-  const [option, setOption] = React.useState("all");
-  const updateValue = React.useCallback(() => {
-    setValue(option);
-  }, [option, setValue]);
-
-  React.useEffect(() => {
-    updateValue();
-  }, [updateValue]);
+  const { handleFilterChange, optionFilter, setCheckSelectMajor } = props;
+  const { name, data } = optionFilter;
+  const [option, setOption] = useState("all");
 
   const handleChange = (event) => {
-    setOption(event.target.value);
+    const { target } = event;
+    setOption(target.value);
+    if (!setCheckSelectMajor) return;
+    setCheckSelectMajor(target.value !== "all" ? true : false);
+  };
+
+  const funcChange = (e) => {
+    handleChange(e);
+    handleFilterChange(e);
   };
 
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 220 }}>
-        <InputLabel id="demo-simple-select-helper-label">
-          {optionName}
-        </InputLabel>
+        <InputLabel id="demo-simple-select-helper-label">{name}</InputLabel>
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
           value={option}
-          label={optionName}
-          onChange={handleChange}
+          label={name}
+          name={name}
+          onChange={funcChange}
         >
           <MenuItem value="all">
             <em>All</em>
           </MenuItem>
-          {optionFilter.map((item, index) => {
+          {data.map((item, index) => {
             return (
               <MenuItem key={index} value={item.value}>
                 {item.name}
@@ -51,13 +51,12 @@ function SelectLabels(props) {
 }
 
 SelectLabels.propTypes = {
-  setValue: PropTypes.func.isRequired,
-  optionName: PropTypes.string.isRequired,
+  handleFilterChange: PropTypes.func.isRequired,
 };
 
 SelectLabels.defaultProps = {
-  setValue: null,
-  optionName: "",
+  handleFilterChange: null,
+  setCheckSelectMajor: null,
 };
 
 export default SelectLabels;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
@@ -16,38 +16,115 @@ import EnhancedTableToolbar from "./EnhancedTableToolbar";
 
 import { getComparator, stableSort } from "./Sort";
 
-function createData(id, className, quantityStudent, nameMajor, year) {
+function createData(id, className, quantityStudent, nameMajor, year, idMajor) {
   return {
     id,
     className,
     quantityStudent,
     nameMajor,
     year,
+    idMajor,
   };
 }
 
 const rows = [
-  createData(1, "CDTH18A", 100, "INFORMATION TECHNOLOGY", 2018),
-  createData(2, "CDTH19B", 102, "INFORMATION TECHNOLOGY", 2019),
-  createData(3, "CDTH20C", 90, "INFORMATION TECHNOLOGY", 2020),
-  createData(4, "CDTH20D", 98, "INFORMATION TECHNOLOGY", 2020),
-  createData(5, "CDTH20E", 80, "INFORMATION TECHNOLOGY", 2020),
+  createData(1, "CDTH18A", 100, "TH", 2018, "01"),
+  createData(2, "CDTH19B", 102, "TH", 2019, "01"),
+  createData(3, "CDTH20C", 90, "TH", 2020, "01"),
+  createData(4, "CDTH20D", 98, "TH", 2020, "01"),
+  createData(5, "CDTH20E", 80, "TH", 2020, "01"),
+  createData(6, "CDCK20A", 120, "CK", 2020, "02"),
+  createData(7, "CDCK20E", 90, "CK", 2020, "02"),
+  createData(8, "CDKT20A", 98, "KT", 2020, "03"),
+  createData(9, "CDKT20C", 90, "KT", 2020, "03"),
+  createData(10, "CDKT20C", 90, "KT", 2020, "03"),
+  createData(11, "CDKT20C", 90, "KT", 2020, "03"),
+  createData(12, "CDKT20C", 90, "KT", 2020, "03"),
+  createData(13, "CDKT20C", 90, "KT", 2020, "03"),
+  createData(14, "CDKT20C", 90, "KT", 2020, "03"),
+  createData(15, "CDKT20C", 90, "KT", 2020, "03"),
 ];
 
 export default function EnhancedTable() {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [filteredData, setFilteredData] = React.useState(rows);
-  const [value, setValue] = React.useState("all");
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("calories");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [filteredData, setFilteredData] = useState(rows);
+  const [activeFilters, setActiveFilters] = useState([]);
+  const [searchedData, setSearchedData] = useState(filteredData);
+
+  const handleFilterChange = (event) => {
+    const { target } = event;
+
+    const isInFilter = activeFilters.some(
+      (element) => element.name === target.name
+    );
+
+    if (!isInFilter) {
+      setActiveFilters((currentState) => {
+        return [...currentState, { name: target.name, value: target.value }];
+      });
+    } else {
+      setActiveFilters((currentState) => {
+        return [
+          ...currentState.filter((x) => x.name !== target.name),
+          { name: target.name, value: target.value },
+        ];
+      });
+    }
+  };
+
+  const handleSearch = (newFilter) => {
+    const { searchTerm } = newFilter;
+    setSearchedData(
+      searchTerm.trim() === ""
+        ? [...filteredData]
+        : filteredData.filter((item) =>
+            item.className.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+    );
+  };
 
   useEffect(() => {
-    setFilteredData(
-      value === "all" ? rows : rows.filter((item) => item.year === value)
+    if (activeFilters.length === 0) {
+      setFilteredData([...rows]);
+      return;
+    }
+
+    let finalData = [...rows];
+
+    const yearData = activeFilters.find(
+      (element) =>
+        element.name.toLowerCase() === "year" &&
+        `${element.value}`.toLowerCase() !== "all"
     );
-  }, [value]);
+
+    if (yearData) {
+      // Do some filtering for first select/dropdown
+      const { value } = yearData;
+      // value is the value of your select dropdown that was selected
+      finalData = finalData.filter((x) => x.year === value);
+    }
+    // Returns undefined if it cannot find the element with .name === 'list' in array, otherwise it will return that element
+    const majorData = activeFilters.find(
+      (element) =>
+        element.name.toLowerCase() === "major" &&
+        `${element.value}`.toLowerCase() !== "all"
+    );
+    if (majorData) {
+      // Do some filtering for second select/dropdown
+      const { value } = majorData;
+      // value is the value of your select dropdown that was selected
+      finalData = finalData.filter((x) => x.idMajor === value);
+    }
+    setFilteredData(finalData);
+  }, [activeFilters]);
+
+  useEffect(() => {
+    setSearchedData(filteredData);
+  }, [filteredData]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -103,7 +180,8 @@ export default function EnhancedTable() {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
-          setValue={setValue}
+          handleFilterChange={handleFilterChange}
+          handleSearch={handleSearch}
           numSelected={selected.length}
         />
         <TableContainer>
@@ -119,7 +197,7 @@ export default function EnhancedTable() {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(filteredData, getComparator(order, orderBy))
+              {stableSort(searchedData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -170,9 +248,9 @@ export default function EnhancedTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10]}
           component="div"
-          count={rows.length}
+          count={searchedData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

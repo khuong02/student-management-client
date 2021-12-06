@@ -148,12 +148,6 @@ const Dashboard = () => {
         animation={Animation}
       />
       <BodyDashboard classes={classes} />
-      {/* <DoughnutDashboard
-        data={dataChart}
-        classes={classes}
-        options={options}
-        animation={Animation}
-      /> */}
     </Box>
   );
 };
