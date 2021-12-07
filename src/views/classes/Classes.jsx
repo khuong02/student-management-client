@@ -15,13 +15,12 @@ const Classes = () => {
       initial="initial"
       animate="in"
       exit="out"
-      //   style={{ height: "100%", background: "green" }}
+      style={{ height: "100%" }}
     >
-      <Box style={{ padding: "0 15px" }}>
-        <Stack>
-          {/* <OptionClass /> */}
-          <TableClasses />
-        </Stack>
+      <Box style={{ padding: "0 15px", position: "relative", height: "100%" }}>
+        {/* <Stack>
+        </Stack> */}
+        <TableClasses />
       </Box>
     </motion.div>
   );

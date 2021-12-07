@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
@@ -10,11 +10,17 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
+import Button from "@mui/material/Button";
 
 import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
+import FormCreateClass from "../FormCreateClass";
+
+import { motion, useCycle } from "framer-motion";
 
 import { getComparator, stableSort } from "./Sort";
+
+import { useDimensions } from "./useDimensions";
 
 function createData(id, className, quantityStudent, nameMajor, year, idMajor) {
   return {
@@ -45,6 +51,40 @@ const rows = [
   createData(15, "CDKT20C", 90, "KT", 2020, "03"),
 ];
 
+const Path = (props) => (
+  <motion.path
+    fill="transparent"
+    strokeWidth="3"
+    stroke="hsl(0, 0%, 18%)"
+    strokeLinecap="round"
+    {...props}
+  />
+);
+
+const sidebar = {
+  open: (height = 1000) => ({
+    // clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
+    width: "100%",
+    height: "100%",
+    transition: {
+      //   type: "spring",
+      stiffness: 40,
+      restDelta: 2,
+    },
+  }),
+  closed: {
+    // clipPath: "circle(30px at 40px 40px)",
+    width: "150px",
+    height: "50px",
+    transition: {
+      //   delay: 0.5,
+      //   type: "spring",
+      stiffness: 400,
+      damping: 40,
+    },
+  },
+};
+
 export default function EnhancedTable() {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
@@ -54,6 +94,9 @@ export default function EnhancedTable() {
   const [filteredData, setFilteredData] = useState(rows);
   const [activeFilters, setActiveFilters] = useState([]);
   const [searchedData, setSearchedData] = useState(filteredData);
+  const [isOpen, toggleOpen] = useCycle(false, true);
+  const containerRef = useRef(null);
+  const { height, width } = useDimensions(containerRef);
 
   const handleFilterChange = (event) => {
     const { target } = event;
@@ -178,6 +221,34 @@ export default function EnhancedTable() {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <motion.div
+        initial={false}
+        animate={isOpen ? "open" : "closed"}
+        custom={height}
+        ref={containerRef}
+      >
+        <motion.div
+          className={
+            isOpen ? "box-create-class open" : "box-create-class closed"
+          }
+          variants={sidebar}
+          onClick={() => toggleOpen()}
+        >
+          {!isOpen && (
+            <Button
+              //   className={!isOpen?"button":}
+              //   initial={{ opacity: "0" }}
+              //   animate={{ opacity: "1" }}
+              //   exit={{ opacity: "0" }}
+              //   sx={{ m: 1, minWidth: 140, minHeight: 50 }}
+              variant="contained"
+            >
+              create class
+            </Button>
+          )}
+        </motion.div>
+        {isOpen && <FormCreateClass toggle={() => toggleOpen()} />}
+      </motion.div>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
           handleFilterChange={handleFilterChange}
