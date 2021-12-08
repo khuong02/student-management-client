@@ -12,19 +12,13 @@ const headCells = [
     id: "id",
     numeric: false,
     disablePadding: true,
-    label: "ID CLASSES",
+    label: "ID STUDENT",
   },
   {
     id: "name",
     numeric: false,
     disablePadding: false,
-    label: "CLASS NAME",
-  },
-  {
-    id: "quantityStudent",
-    numeric: true,
-    disablePadding: false,
-    label: "QUANTITY STUDENT",
+    label: "STUDENT NAME",
   },
   {
     id: "nameMajor",
@@ -46,7 +40,7 @@ const headCells = [
   },
 ];
 
-const Classes = () => {
+const Student = () => {
   return (
     <motion.div
       variants={pageVariants}
@@ -63,4 +57,4 @@ const Classes = () => {
   );
 };
 
-export default Classes;
+export default Student;

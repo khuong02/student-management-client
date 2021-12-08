@@ -6,7 +6,7 @@ import * as React from "react";
 // import { createTheme } from "@mui/material/styles";
 // import Paper from "@mui/material/Paper";
 // import MuiVirtualizedTable from "./VirtualizedTable";
-import SortTable from "./SortTable";
+import SortTable from "./table/SortTable";
 // import Visibility from "@mui/icons-material/Visibility";
 
 // import { styles } from "../../styles/useStyle";

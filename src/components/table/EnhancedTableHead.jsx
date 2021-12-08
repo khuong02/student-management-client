@@ -9,39 +9,6 @@ import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
-const headCells = [
-  {
-    id: "id",
-    numeric: true,
-    disablePadding: true,
-    label: "ID CLASSES",
-  },
-  {
-    id: "className",
-    numeric: true,
-    disablePadding: false,
-    label: "CLASS NAME",
-  },
-  {
-    id: "quantityStudent",
-    numeric: false,
-    disablePadding: false,
-    label: "QUANTITY STUDENT",
-  },
-  {
-    id: "nameMajor",
-    numeric: true,
-    disablePadding: false,
-    label: "NAME MAJOR",
-  },
-  {
-    id: "year",
-    numeric: true,
-    disablePadding: false,
-    label: "YEAR",
-  },
-];
-
 function EnhancedTableHead(props) {
   const {
     onSelectAllClick,
@@ -50,6 +17,7 @@ function EnhancedTableHead(props) {
     numSelected,
     rowCount,
     onRequestSort,
+    headCells,
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -72,22 +40,27 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "left" : "center"}
+            align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {headCell.id.toLowerCase() !== "views" && (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            )}
+            {headCell.id.toLowerCase() === "views" && headCell.label}
           </TableCell>
         ))}
       </TableRow>

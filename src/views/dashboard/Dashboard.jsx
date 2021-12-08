@@ -11,6 +11,7 @@ import BodyDashboard from "../../components/bodyDashboard/BodyDashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import ClassIcon from "@mui/icons-material/Class";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
+import SubjectIcon from "@mui/icons-material/Subject";
 import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
 
 const menuDashboard = [
@@ -32,15 +33,15 @@ const menuDashboard = [
       color: "#fff",
     },
   },
-  //   {
-  //     title: "Subjects",
-  //     path: "/subjects",
-  //     icon: <SubjectIcon style={{ fontSize: "50px" }} />,
-  //     style: {
-  //       background: "linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%)",
-  //       color: "#fff",
-  //     },
-  //   },
+  {
+    title: "Subjects",
+    path: "/subjects",
+    icon: <SubjectIcon style={{ fontSize: "50px" }} />,
+    style: {
+      background: "linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%)",
+      color: "#fff",
+    },
+  },
   {
     title: "Students",
     path: "/students",

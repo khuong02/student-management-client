@@ -7,6 +7,7 @@ import Loading from "../layout/Loading";
 
 const Dashboard = React.lazy(() => import("../views/dashboard/Dashboard"));
 const Classes = React.lazy(() => import("../views/classes/Classes"));
+const Students = React.lazy(() => import("../views/students/Students"));
 
 const Body = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const Body = () => {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/classes" element={<Classes />} />
+          <Route path="/students" element={<Students />} />
         </Routes>
       </AnimatePresence>
     </Suspense>

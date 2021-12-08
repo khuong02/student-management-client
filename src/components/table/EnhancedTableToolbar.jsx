@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-import OptionClass from "./OptionClass";
+import Option from "./Option";
 
 const EnhancedTableToolbar = (props) => {
   const { numSelected, handleFilterChange, handleSearch } = props;
@@ -55,7 +55,7 @@ const EnhancedTableToolbar = (props) => {
         </Tooltip>
       ) : (
         <>
-          <OptionClass
+          <Option
             handleFilterChange={handleFilterChange}
             handleSearch={handleSearch}
           />

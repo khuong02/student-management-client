@@ -1,5 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
-// import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+
+import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -10,22 +12,26 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
+import Visibility from "@mui/icons-material/Visibility";
 
 import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
-import FormCreateClass from "../FormCreateClass";
-
-import { motion, useCycle } from "framer-motion";
 
 import { getComparator, stableSort } from "./Sort";
+import ButtonCreateClasses from "./ButtonCreateClasses";
 
-import { useDimensions } from "./useDimensions";
+EnhancedTable.propTypes = {
+  headCells: PropTypes.array.isRequired,
+};
 
-function createData(id, className, quantityStudent, nameMajor, year, idMajor) {
+EnhancedTable.defaultProps = {
+  headCells: [],
+};
+
+function createData(id, name, quantityStudent, nameMajor, year, idMajor) {
   return {
     id,
-    className,
+    name,
     quantityStudent,
     nameMajor,
     year,
@@ -51,41 +57,9 @@ const rows = [
   createData(15, "CDKT20C", 90, "KT", 2020, "03"),
 ];
 
-const Path = (props) => (
-  <motion.path
-    fill="transparent"
-    strokeWidth="3"
-    stroke="hsl(0, 0%, 18%)"
-    strokeLinecap="round"
-    {...props}
-  />
-);
+export default function EnhancedTable(props) {
+  const { headCells } = props;
 
-const sidebar = {
-  open: (height = 1000) => ({
-    // clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
-    width: "100%",
-    height: "100%",
-    transition: {
-      //   type: "spring",
-      stiffness: 40,
-      restDelta: 2,
-    },
-  }),
-  closed: {
-    // clipPath: "circle(30px at 40px 40px)",
-    width: "150px",
-    height: "50px",
-    transition: {
-      //   delay: 0.5,
-      //   type: "spring",
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-};
-
-export default function EnhancedTable() {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
   const [selected, setSelected] = useState([]);
@@ -94,9 +68,11 @@ export default function EnhancedTable() {
   const [filteredData, setFilteredData] = useState(rows);
   const [activeFilters, setActiveFilters] = useState([]);
   const [searchedData, setSearchedData] = useState(filteredData);
-  const [isOpen, toggleOpen] = useCycle(false, true);
-  const containerRef = useRef(null);
-  const { height, width } = useDimensions(containerRef);
+  //   const [deleteData, setDeleteData] = useState([]);
+
+  //   const handleDelete = (newItem) => {
+  //     setDeleteData((currentItem) => [...currentItem, newItem]);
+  //   };
 
   const handleFilterChange = (event) => {
     const { target } = event;
@@ -125,7 +101,7 @@ export default function EnhancedTable() {
       searchTerm.trim() === ""
         ? [...filteredData]
         : filteredData.filter((item) =>
-            item.className.toLowerCase().includes(searchTerm.toLowerCase())
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
           )
     );
   };
@@ -177,19 +153,19 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = filteredData.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -221,34 +197,7 @@ export default function EnhancedTable() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <motion.div
-        initial={false}
-        animate={isOpen ? "open" : "closed"}
-        custom={height}
-        ref={containerRef}
-      >
-        <motion.div
-          className={
-            isOpen ? "box-create-class open" : "box-create-class closed"
-          }
-          variants={sidebar}
-          onClick={() => toggleOpen()}
-        >
-          {!isOpen && (
-            <Button
-              //   className={!isOpen?"button":}
-              //   initial={{ opacity: "0" }}
-              //   animate={{ opacity: "1" }}
-              //   exit={{ opacity: "0" }}
-              //   sx={{ m: 1, minWidth: 140, minHeight: 50 }}
-              variant="contained"
-            >
-              create class
-            </Button>
-          )}
-        </motion.div>
-        {isOpen && <FormCreateClass toggle={() => toggleOpen()} />}
-      </motion.div>
+      {selected.length === 0 && <ButtonCreateClasses />}
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
           handleFilterChange={handleFilterChange}
@@ -264,6 +213,7 @@ export default function EnhancedTable() {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              headCells={headCells}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
@@ -271,9 +221,8 @@ export default function EnhancedTable() {
               {stableSort(searchedData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
-
                   return (
                     <TableRow
                       hover
@@ -301,12 +250,15 @@ export default function EnhancedTable() {
                       >
                         {row.id}
                       </TableCell>
-                      <TableCell>{row.className}</TableCell>
-                      <TableCell align="center">
-                        {row.quantityStudent}
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell align="right">{row.quantityStudent}</TableCell>
+                      <TableCell align="right">{row.nameMajor}</TableCell>
+                      <TableCell align="right">{row.year}</TableCell>
+                      <TableCell align="right">
+                        <Link className="link-views-classes" to={`/${row.id}`}>
+                          <Visibility />
+                        </Link>
                       </TableCell>
-                      <TableCell>{row.nameMajor}</TableCell>
-                      <TableCell>{row.year}</TableCell>
                     </TableRow>
                   );
                 })}

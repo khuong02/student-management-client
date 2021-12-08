@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, Button, Paper } from "@mui/material";
+import { Button } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -14,43 +14,6 @@ const carAnimation = {
   closed: { x: [50, 0], opacity: [1, 0] },
 };
 
-const pageVariants = {
-  initial: {
-    // opacity: 0,
-    x: "50%",
-  },
-  in: {
-    // opacity: 1,
-    x: 0,
-  },
-  out: {
-    // opacity: 0,
-    x: "50%",
-  },
-};
-
-const variants2 = {
-  open: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      x: { stiffness: 1000, velocity: -100 },
-    },
-  },
-  closed: {
-    x: 50,
-    opacity: 0,
-    transition: {
-      x: { stiffness: 1000 },
-    },
-  },
-};
-
-const pageTransition = {
-  type: "tween",
-  duration: 1.2,
-};
-
 const variants = {
   open: {
     transition: { staggerChildren: 0.07, delayChildren: 0.2 },
@@ -59,10 +22,6 @@ const variants = {
     transition: { staggerChildren: 0.05, staggerDirection: -1 },
   },
 };
-// const variants = {
-//   open: { width: ["474px", "218px"], opacity: [0, 1] },
-//   closed: { width: ["100vw", "200vw"], opacity: [1, 0] },
-// };
 
 const FormCreateClass = ({ toggle }) => {
   const [option, setOption] = useState("");
@@ -80,26 +39,7 @@ const FormCreateClass = ({ toggle }) => {
 
   return (
     <motion.div variants={variants}>
-      <motion.div
-        style={{
-          width: "474px",
-          height: "218px",
-          position: "absolute",
-          background: "#fff",
-          borderRadius: "4px",
-          top: "35%",
-          left: "33%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: "2",
-        }}
-        variants={carAnimation}
-      >
-        {/* <Paper
-          elevation={12}
-          //   style={}
-        > */}
+      <motion.div className="formCreateClass" variants={carAnimation}>
         <ClearIcon
           style={{
             position: "absolute",
@@ -108,7 +48,6 @@ const FormCreateClass = ({ toggle }) => {
             fontSize: "40px",
             cursor: "pointer",
           }}
-          //   variant="contained"
           onClick={toggle}
         />
         <FormControl sx={{ m: 1, minWidth: 220 }}>
