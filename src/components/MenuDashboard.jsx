@@ -33,7 +33,7 @@ const MenuDashboard = (props) => {
               item
               xs={2}
               sm={4}
-              md={3}
+              md={2.4}
               key={index}
               //   className={classes.grid}
             >

@@ -15,6 +15,7 @@ import ClassIcon from "@mui/icons-material/Class";
 import SubjectIcon from "@mui/icons-material/Subject";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 
 import { Link, useLocation } from "react-router-dom";
 
@@ -37,14 +38,19 @@ const Navbar = () => {
     },
 
     {
-      name: "Subject",
+      name: "Subjects",
       icon: <SubjectIcon className={classes.icon} />,
-      path: "/subject",
+      path: "/subjects",
     },
     {
       name: "Students",
       icon: <AccessibilityIcon className={classes.icon} />,
       path: "/students",
+    },
+    {
+      name: "Assignment",
+      icon: <AssignmentIndIcon className={classes.icon} />,
+      path: "/assignment",
     },
     {
       name: "Logout",

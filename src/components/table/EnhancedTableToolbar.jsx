@@ -11,7 +11,13 @@ import Typography from "@mui/material/Typography";
 import Option from "./Option";
 
 const EnhancedTableToolbar = (props) => {
-  const { numSelected, handleFilterChange, handleSearch } = props;
+  const {
+    numSelected,
+    handleFilterChange,
+    handleSearch,
+    nameTable,
+    optionFilterData,
+  } = props;
 
   return (
     <Toolbar
@@ -43,7 +49,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          list classes
+          {nameTable}
         </Typography>
       )}
 
@@ -56,6 +62,7 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <>
           <Option
+            optionFilterData={optionFilterData}
             handleFilterChange={handleFilterChange}
             handleSearch={handleSearch}
           />

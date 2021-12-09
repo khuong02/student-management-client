@@ -18,47 +18,39 @@ import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
 
 import { getComparator, stableSort } from "./Sort";
-import ButtonCreateClasses from "./ButtonCreateClasses";
+import ButtonCreateClasses from "../ButtonCreateClasses";
 
 EnhancedTable.propTypes = {
   headCells: PropTypes.array.isRequired,
+  rows: PropTypes.array.isRequired,
+  optionFilterData: PropTypes.array.isRequired,
+  nameButton: PropTypes.string.isRequired,
+  nameTable: PropTypes.string.isRequired,
+  optionSearch: PropTypes.string.isRequired,
 };
 
 EnhancedTable.defaultProps = {
   headCells: [],
+  rows: [],
+  optionFilterData: [],
+  FormCreate: null,
+  RenderItem: null,
+  nameButton: "",
+  nameTable: "",
+  optionSearch: "",
 };
 
-function createData(id, name, quantityStudent, nameMajor, year, idMajor) {
-  return {
-    id,
-    name,
-    quantityStudent,
-    nameMajor,
-    year,
-    idMajor,
-  };
-}
-
-const rows = [
-  createData(1, "CDTH18A", 100, "TH", 2018, "01"),
-  createData(2, "CDTH19B", 102, "TH", 2019, "01"),
-  createData(3, "CDTH20C", 90, "TH", 2020, "01"),
-  createData(4, "CDTH20D", 98, "TH", 2020, "01"),
-  createData(5, "CDTH20E", 80, "TH", 2020, "01"),
-  createData(6, "CDCK20A", 120, "CK", 2020, "02"),
-  createData(7, "CDCK20E", 90, "CK", 2020, "02"),
-  createData(8, "CDKT20A", 98, "KT", 2020, "03"),
-  createData(9, "CDKT20C", 90, "KT", 2020, "03"),
-  createData(10, "CDKT20C", 90, "KT", 2020, "03"),
-  createData(11, "CDKT20C", 90, "KT", 2020, "03"),
-  createData(12, "CDKT20C", 90, "KT", 2020, "03"),
-  createData(13, "CDKT20C", 90, "KT", 2020, "03"),
-  createData(14, "CDKT20C", 90, "KT", 2020, "03"),
-  createData(15, "CDKT20C", 90, "KT", 2020, "03"),
-];
-
 export default function EnhancedTable(props) {
-  const { headCells } = props;
+  const {
+    headCells,
+    rows,
+    RenderItem,
+    FormCreate,
+    nameButton,
+    nameTable,
+    optionSearch,
+    optionFilterData,
+  } = props;
 
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
@@ -101,7 +93,7 @@ export default function EnhancedTable(props) {
       searchTerm.trim() === ""
         ? [...filteredData]
         : filteredData.filter((item) =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+            item[optionSearch].toLowerCase().includes(searchTerm.toLowerCase())
           )
     );
   };
@@ -138,8 +130,20 @@ export default function EnhancedTable(props) {
       // value is the value of your select dropdown that was selected
       finalData = finalData.filter((x) => x.idMajor === value);
     }
+
+    const semesterData = activeFilters.find(
+      (element) =>
+        element.name.toLowerCase() === "semester" &&
+        `${element.value}`.toLowerCase() !== "all"
+    );
+    if (semesterData) {
+      // Do some filtering for second select/dropdown
+      const { value } = semesterData;
+      // value is the value of your select dropdown that was selected
+      finalData = finalData.filter((x) => x.semester === value);
+    }
     setFilteredData(finalData);
-  }, [activeFilters]);
+  }, [activeFilters, rows]);
 
   useEffect(() => {
     setSearchedData(filteredData);
@@ -197,12 +201,16 @@ export default function EnhancedTable(props) {
 
   return (
     <Box sx={{ width: "100%" }}>
-      {selected.length === 0 && <ButtonCreateClasses />}
+      {selected.length === 0 && FormCreate !== null && (
+        <ButtonCreateClasses FormCreate={FormCreate} nameButton={nameButton} />
+      )}
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
           handleFilterChange={handleFilterChange}
           handleSearch={handleSearch}
           numSelected={selected.length}
+          nameTable={nameTable}
+          optionFilterData={optionFilterData}
         />
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
@@ -218,50 +226,51 @@ export default function EnhancedTable(props) {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(searchedData, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+              {RenderItem !== null &&
+                stableSort(searchedData, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row.id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    return (
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, row.id)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
                       >
-                        {row.id}
-                      </TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell align="right">{row.quantityStudent}</TableCell>
-                      <TableCell align="right">{row.nameMajor}</TableCell>
-                      <TableCell align="right">{row.year}</TableCell>
-                      <TableCell align="right">
-                        <Link className="link-views-classes" to={`/${row.id}`}>
-                          <Visibility />
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              "aria-labelledby": labelId,
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {row.id}
+                        </TableCell>
+                        <RenderItem item={row} />
+                        <TableCell align="right">
+                          <Link
+                            className="link-views-classes"
+                            to={`/${row.id}`}
+                          >
+                            <Visibility />
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               {emptyRows > 0 && (
                 <TableRow>
                   <TableCell colSpan={6} />

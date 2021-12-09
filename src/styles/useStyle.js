@@ -98,7 +98,7 @@ export const defaultList = {
 
 export const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  padding: theme.spacing(4),
+  padding: theme.spacing(3),
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",

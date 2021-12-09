@@ -4,8 +4,7 @@ import { motion, useCycle } from "framer-motion";
 
 import Button from "@mui/material/Button";
 
-import { useDimensions } from "./useDimensions";
-import FormCreateClass from "./FormCreateClass";
+import { useDimensions } from "./table/useDimensions";
 
 const sidebar = {
   open: () => ({
@@ -20,7 +19,7 @@ const sidebar = {
   }),
   closed: {
     // clipPath: "circle(30px at 40px 40px)",
-    width: "150px",
+    width: "200px",
     height: "50px",
     transition: {
       //   delay: 0.5,
@@ -31,7 +30,9 @@ const sidebar = {
   },
 };
 
-const ButtonCreateClasses = () => {
+const ButtonCreateClasses = (props) => {
+  const { FormCreate, nameButton } = props;
+
   const [isOpen, toggleOpen] = useCycle(false, true);
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
@@ -48,9 +49,9 @@ const ButtonCreateClasses = () => {
         variants={sidebar}
         onClick={() => toggleOpen()}
       >
-        {!isOpen && <Button variant="contained">create class</Button>}
+        {!isOpen && <Button variant="contained">{nameButton}</Button>}
       </motion.div>
-      {isOpen && <FormCreateClass toggle={() => toggleOpen()} />}
+      {isOpen && <FormCreate toggle={() => toggleOpen()} />}
     </motion.div>
   );
 };

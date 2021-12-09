@@ -7,28 +7,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import SelectLabels from "./SelectLabels";
 
 const OptionClass = (props) => {
-  const { handleFilterChange, handleSearch } = props;
+  const { handleFilterChange, handleSearch, optionFilterData } = props;
   const [searchTerm, setSearchTerm] = useState("");
-  const [checkSelectMajor, setCheckSelectMajor] = useState(false);
   const typingTimeoutRef = useRef(null);
-
-  const yearFilter = [
-    { name: "2018", value: 2018 },
-    { name: "2019", value: 2019 },
-    { name: "2020", value: 2020 },
-    { name: "2021", value: 2021 },
-  ];
-
-  const major = [
-    { name: "TH", value: "01" },
-    { name: "CK", value: "02" },
-    { name: "KT", value: "03" },
-  ];
-
-  React.useEffect(() => {
-    if (!checkSelectMajor) return;
-    setSearchTerm("");
-  }, [checkSelectMajor]);
 
   const handleChangeInput = (e) => {
     const { target } = e;
@@ -47,8 +28,13 @@ const OptionClass = (props) => {
     }, 300);
   };
 
+  const handleChangeSelect = (newSelect) => {
+    if (newSelect && searchTerm.trim() !== "") return setSearchTerm("");
+    return;
+  };
+
   return (
-    <Stack direction="row" style={{ marginRight: "150px" }}>
+    <Stack direction="row" style={{ marginRight: "200px" }}>
       <TextField
         id="outlined-basic"
         label="Search"
@@ -58,30 +44,16 @@ const OptionClass = (props) => {
         InputProps={{ endAdornment: <SearchIcon /> }}
         sx={{ m: 1, minWidth: 220 }}
       />
-      <SelectLabels
-        handleFilterChange={handleFilterChange}
-        optionFilter={{ name: "Year", data: yearFilter }}
-      />
-      <SelectLabels
-        handleFilterChange={handleFilterChange}
-        setCheckSelectMajor={setCheckSelectMajor}
-        optionFilter={{ name: "Major", data: major }}
-      />
-      {/* <motion.div
-        // variant="contained"
-        // sx={{ m: 1, minWidth: 140, minHeight: 50 }}
-        initial={false}
-        animate={isOpen ? "open" : "closed"}
-        custom={(height, width)}
-        ref={containerRef}
-      >
-        <motion.div
-          className={!isOpen ? "background" : "openBackground"}
-          variants={sidebar}
-          onClick={() => toggleOpen()}
-        >
-        </motion.div>
-      </motion.div> */}
+      {optionFilterData.map((item, index) => {
+        return (
+          <SelectLabels
+            key={index}
+            handleFilterChange={handleFilterChange}
+            optionFilter={{ name: item.name, data: item.option }}
+            handleChangeSelect={handleChangeSelect}
+          />
+        );
+      })}
     </Stack>
   );
 };

@@ -6,20 +6,19 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 function SelectLabels(props) {
-  const { handleFilterChange, optionFilter, setCheckSelectMajor } = props;
+  const { handleFilterChange, optionFilter, handleChangeSelect } = props;
   const { name, data } = optionFilter;
   const [option, setOption] = useState("all");
 
   const handleChange = (event) => {
     const { target } = event;
     setOption(target.value);
-    if (!setCheckSelectMajor) return;
-    setCheckSelectMajor(target.value !== "all" ? true : false);
   };
 
   const funcChange = (e) => {
     handleChange(e);
     handleFilterChange(e);
+    handleChangeSelect(option);
   };
 
   return (
