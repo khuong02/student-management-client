@@ -20,7 +20,6 @@ export default class MuiVirtualizedTable extends React.PureComponent {
 
   cellRenderer = ({ cellData, columnIndex }) => {
     const { columns, classes, rowHeight, onRowClick } = this.props;
-
     return (
       <TableCell
         component="div"
@@ -34,6 +33,7 @@ export default class MuiVirtualizedTable extends React.PureComponent {
             ? "right"
             : "left"
         }
+        // onClick={() => console.log(columns)}
       >
         {cellData}
       </TableCell>
@@ -63,6 +63,7 @@ export default class MuiVirtualizedTable extends React.PureComponent {
   render() {
     const { classes, columns, rowHeight, headerHeight, ...tableProps } =
       this.props;
+
     return (
       <AutoSizer>
         {({ height, width }) => (

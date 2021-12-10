@@ -7,7 +7,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import SelectLabels from "./SelectLabels";
 
 const OptionClass = (props) => {
-  const { handleFilterChange, handleSearch, optionFilterData } = props;
+  const { handleFilterChange, handleSearch, optionFilterData, nameSearch } =
+    props;
   const [searchTerm, setSearchTerm] = useState("");
   const typingTimeoutRef = useRef(null);
 
@@ -37,7 +38,7 @@ const OptionClass = (props) => {
     <Stack direction="row" style={{ marginRight: "200px" }}>
       <TextField
         id="outlined-basic"
-        label="Search"
+        label={nameSearch}
         variant="outlined"
         value={searchTerm}
         onChange={handleChangeInput}
@@ -61,11 +62,14 @@ const OptionClass = (props) => {
 OptionClass.propTypes = {
   handleFilterChange: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
+  optionFilterData: PropTypes.array.isRequired,
 };
 
 OptionClass.defaultProps = {
   handleFilterChange: null,
   handleSearch: null,
+  optionFilterData: [],
+  nameSearch: "Search",
 };
 
 export default OptionClass;

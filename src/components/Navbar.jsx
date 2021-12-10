@@ -16,6 +16,7 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
 
 import { Link, useLocation } from "react-router-dom";
 
@@ -51,6 +52,11 @@ const Navbar = () => {
       name: "Assignment",
       icon: <AssignmentIndIcon className={classes.icon} />,
       path: "/assignment",
+    },
+    {
+      name: "Chart",
+      icon: <StackedBarChartIcon className={classes.icon} />,
+      path: "/chart",
     },
     {
       name: "Logout",
