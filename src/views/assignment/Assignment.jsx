@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { pageVariants, pageTransition } from "../../components/Animation";
 
-import { Stack, Box } from "@mui/material";
+import { Stack, Box, Paper, Button } from "@mui/material";
 
 import TableVirtualized from "../../components/TableVirtualized";
 import Option from "../../components/table/Option";
@@ -58,14 +58,15 @@ const Assignment = () => {
   const [searchedData, setSearchedData] = useState(rows);
   const [filteredData, setFilteredData] = useState(rows);
   const [activeFilters, setActiveFilters] = useState([]);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleSearch = (newFilter) => {
     const { searchTerm } = newFilter;
 
     setSearchedData(
       searchTerm.trim() === ""
-        ? [...rows]
-        : rows.filter((item) =>
+        ? [...filteredData]
+        : filteredData.filter((item) =>
             item.className.toLowerCase().includes(searchTerm.toLowerCase())
           )
     );
@@ -145,23 +146,60 @@ const Assignment = () => {
         direction="row"
         style={{
           height: "100%",
-          //   display: "flex",
-          //   justifyContent: "center",
-          //   alignItems: "center",
-          //   margin: "auto",
         }}
       >
-        <Box style={{ width: "50%" }}>
+        <Box style={{ width: "50%", height: "100%" }}>
           <Option
             optionFilterData={optionFilterData}
             handleFilterChange={handleFilterChange}
             handleSearch={handleSearch}
             nameSearch="Search Class Name"
           />
+          <Paper elevation={12}>
+            <Button variant="contained" onClick={() => setIsOpen(true)}>
+              Class
+            </Button>
+            <Button variant="contained" onClick={() => setIsOpen(false)}>
+              Teacher
+            </Button>
+          </Paper>
         </Box>
-        <Box style={{ width: "50%" }}>
-          <TableVirtualized data={searchedData} />
-        </Box>
+        <motion.div style={{ width: "50%" }}>
+          <AnimatePresence exitBeforeEnter initial={false}>
+            {isOpen && (
+              <motion.div
+                //   initial={{ scaleY: 0 }}
+                //   animate={{ scaleY: 1 }}
+                //   exit={{ scaleY: 0 }}
+                //   transition={{ duration: 0.5 }}
+                variants={pageVariants}
+                transition={pageTransition}
+                initial="initial"
+                animate="in"
+                exit="out"
+                style={{ width: "100%", height: "100%" }}
+                key={isOpen}
+              >
+                <TableVirtualized data={searchedData} />
+              </motion.div>
+            )}
+            {!isOpen && (
+              <motion.div
+                //   initial={{ scaleY: 0 }}
+                //   animate={{ scaleY: 1 }}
+                //   exit={{ scaleY: 0 }}
+                //   transition={{ duration: 0.5 }}
+                variants={pageVariants}
+                transition={pageTransition}
+                initial="initial"
+                animate="in"
+                exit="out"
+                style={{ width: "100%", height: "100%", background: "green" }}
+                key={isOpen}
+              ></motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       </Stack>
     </motion.div>
   );

@@ -142,6 +142,6 @@ export const styles = (theme) => ({
     flex: 1,
   },
   noClick: {
-    cursor: "initial",
+    cursor: "pointer",
   },
 });

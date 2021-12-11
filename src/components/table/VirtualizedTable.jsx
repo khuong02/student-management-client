@@ -20,6 +20,7 @@ export default class MuiVirtualizedTable extends React.PureComponent {
 
   cellRenderer = ({ cellData, columnIndex }) => {
     const { columns, classes, rowHeight, onRowClick } = this.props;
+
     return (
       <TableCell
         component="div"
@@ -27,13 +28,14 @@ export default class MuiVirtualizedTable extends React.PureComponent {
           [classes.noClick]: onRowClick == null,
         })}
         variant="body"
-        style={{ height: rowHeight }}
+        style={{
+          height: rowHeight,
+        }}
         align={
           (columnIndex != null && columns[columnIndex].numeric) || false
             ? "right"
             : "left"
         }
-        // onClick={() => console.log(columns)}
       >
         {cellData}
       </TableCell>
@@ -63,7 +65,6 @@ export default class MuiVirtualizedTable extends React.PureComponent {
   render() {
     const { classes, columns, rowHeight, headerHeight, ...tableProps } =
       this.props;
-
     return (
       <AutoSizer>
         {({ height, width }) => (
@@ -91,6 +92,7 @@ export default class MuiVirtualizedTable extends React.PureComponent {
                   }
                   className={classes.flexContainer}
                   cellRenderer={this.cellRenderer}
+                  onClick={() => console.log(1)}
                   dataKey={dataKey}
                   {...other}
                 />

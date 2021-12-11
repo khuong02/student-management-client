@@ -44,6 +44,38 @@ const useContainerDimensions = (myRef) => {
   return dimensions;
 };
 
+const columns = (width) => [
+  {
+    width,
+    label: "ID CLASS",
+    dataKey: "id",
+  },
+  {
+    width,
+    label: "NAME CLASS",
+    dataKey: "className",
+    numeric: true,
+  },
+  {
+    width,
+    label: "NAME MAJOR",
+    dataKey: "nameMajor",
+    numeric: true,
+  },
+  //   {
+  //     width: width / 5,
+  //     label: "ID MAJOR",
+  //     dataKey: "idMajor",
+  //     numeric: true,
+  //   },
+  {
+    width,
+    label: "YEAR",
+    dataKey: "year",
+    numeric: true,
+  },
+];
+
 export default function ReactVirtualizedTable(props) {
   const { data } = props;
 
@@ -55,37 +87,8 @@ export default function ReactVirtualizedTable(props) {
       <VirtualizedTableComponent
         rowCount={data.length}
         rowGetter={({ index }) => data[index]}
-        columns={[
-          {
-            width: width / 4,
-            label: "ID CLASS",
-            dataKey: "id",
-          },
-          {
-            width: width / 4,
-            label: "NAME CLASS",
-            dataKey: "className",
-            numeric: true,
-          },
-          {
-            width: width / 4,
-            label: "NAME MAJOR",
-            dataKey: "nameMajor",
-            numeric: true,
-          },
-          //   {
-          //     width: width / 5,
-          //     label: "ID MAJOR",
-          //     dataKey: "idMajor",
-          //     numeric: true,
-          //   },
-          {
-            width: width / 4,
-            label: "YEAR",
-            dataKey: "year",
-            numeric: true,
-          },
-        ]}
+        columns={columns(width / 4)}
+        onRowClick={({ index }) => console.log(data[index])}
       />
     </Paper>
   );
