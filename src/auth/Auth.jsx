@@ -1,10 +1,13 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import Slider from "react-slick";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+
 import Admission from "./Admission.jsx";
 import Login from "./Login";
+import Loading from "../layout/Loading";
 
 const AuthPage = () => {
   const settings = {
@@ -56,14 +59,20 @@ const AuthPage = () => {
 };
 
 const Auth = () => {
+  const location = useLocation();
+
   return (
     <div className="auth-page">
       <div className="col-sm-5">
-        <Routes>
-          <Route path="login" element={<Login />} />
-          <Route path="admission" element={<Admission />} />
-          <Route path="*" element={<div>Not found</div>} />
-        </Routes>
+        <Suspense fallback={<Loading />}>
+          <AnimatePresence exitBeforeEnter initial={false}>
+            <Routes location={location} key={location.pathname}>
+              <Route path="login" element={<Login />} />
+              <Route path="admission" element={<Admission />} />
+              <Route path="*" element={<div>Not found</div>} />
+            </Routes>
+          </AnimatePresence>
+        </Suspense>
       </div>
       <AuthPage />
     </div>

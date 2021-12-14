@@ -7,8 +7,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import SelectLabels from "./SelectLabels";
 
 const OptionClass = (props) => {
-  const { handleFilterChange, handleSearch, optionFilterData, nameSearch } =
-    props;
+  const {
+    handleFilterChange,
+    handleSearch,
+    optionFilterData,
+    nameSearch,
+    marginRight,
+  } = props;
   const [searchTerm, setSearchTerm] = useState("");
   const typingTimeoutRef = useRef(null);
 
@@ -35,7 +40,7 @@ const OptionClass = (props) => {
   };
 
   return (
-    <Stack direction="row" style={{ marginRight: "200px" }}>
+    <Stack direction="row" style={{ marginRight: marginRight }}>
       <TextField
         id="outlined-basic"
         label={nameSearch}

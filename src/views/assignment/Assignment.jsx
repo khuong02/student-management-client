@@ -1,105 +1,84 @@
 import React, { useEffect, useState } from "react";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { pageVariants, pageTransition } from "../../components/Animation";
 
-import { Stack, Box, Paper, Button } from "@mui/material";
+import { Stack } from "@mui/material";
 
-import TableVirtualized from "../../components/TableVirtualized";
-import Option from "../../components/table/Option";
+import { rows, teachers, subjects } from "../../components/CreateData";
+import {
+  optionFilterDefault,
+  optionFilterSubject,
+} from "../../components/OptionFilterData";
+import OptionAssignment from "../../components/assignment/OptionAssignment";
+import RenderDataChoose from "../../components/assignment/RenderDataChoose";
 
-const sample = [
-  ["1", "CDTH18A", "TH", 2019, "01"],
-  ["2", "CDTH19B", "TH", 2019, "01"],
-  ["3", "CDCK20C", "CK", 2020, "02"],
-  ["4", "CDCK20D", "CK", 2020, "02"],
-  ["5", "CDTH20E", "TH", 2020, "01"],
+const TableAssignmentRender = React.lazy(() =>
+  import("../../components/assignment/TableAssignmentRender")
+);
+
+const optionAssignment = [
+  { name: "Homeroom teacher", value: "HT" },
+  { name: "Subject teacher", value: "ST" },
 ];
 
-function createData(id, className, nameMajor, year, idMajor) {
-  return {
-    id,
-    className,
-    nameMajor,
-    year,
-    idMajor,
-  };
-}
-
-const rows = [];
-
-for (let i = 0; i < 200; i += 1) {
-  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-  rows.push(createData(...randomSelection));
-}
-
-const optionFilterData = [
-  {
-    name: "Year",
-    option: [
-      { name: "2018", value: 2018 },
-      { name: "2019", value: 2019 },
-      { name: "2020", value: 2020 },
-      { name: "2021", value: 2021 },
-    ],
-  },
-  {
-    name: "Major",
-    option: [
-      { name: "TH", value: "01" },
-      { name: "CK", value: "02" },
-      { name: "KT", value: "03" },
-    ],
-  },
+const buttonData = [
+  { name: "Class", value: "CLASS" },
+  { name: "Teacher", value: "TEACHER" },
 ];
 
 const Assignment = () => {
-  const [searchedData, setSearchedData] = useState(rows);
-  const [filteredData, setFilteredData] = useState(rows);
+  const [optionFilter, setOptionFilter] = useState(optionFilterDefault);
+  const [data, setData] = useState(rows);
+  const [filteredData, setFilteredData] = useState(data);
+  const [searchedData, setSearchedData] = useState(filteredData);
   const [activeFilters, setActiveFilters] = useState([]);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState("CLASS");
+  const [option, setOption] = useState("HT");
+  const [hideButton, setHideButton] = useState(false);
+  //   const [dataAssignment, setDataAssignment] = useState([]);
+  const [activeAssignment, setActiveAssignment] = useState([]);
+  const [optionSearch, setOptionSearch] = useState({
+    name: "Search Class Name",
+    value: "className",
+  });
 
-  const handleSearch = (newFilter) => {
-    const { searchTerm } = newFilter;
-
-    setSearchedData(
-      searchTerm.trim() === ""
-        ? [...filteredData]
-        : filteredData.filter((item) =>
-            item.className.toLowerCase().includes(searchTerm.toLowerCase())
-          )
+  useEffect(() => {
+    setHideButton(option === "HT" ? false : true);
+    setActiveAssignment(
+      option !== "HT"
+        ? (currentState) => currentState
+        : (currentState) =>
+            currentState.filter((item) => item.name.toLowerCase() !== "subject")
     );
-  };
+  }, [option]);
 
-  const handleFilterChange = (event) => {
-    const { target } = event;
-
-    const isInFilter = activeFilters.some(
-      (element) => element.name === target.name
-    );
-
-    if (!isInFilter) {
-      setActiveFilters((currentState) => {
-        return [...currentState, { name: target.name, value: target.value }];
-      });
+  useEffect(() => {
+    if (isOpen === "CLASS") {
+      setData([...rows]);
+      setOptionFilter(optionFilterDefault);
+      setOptionSearch({ name: "Search Class Name", value: "className" });
     } else {
-      setActiveFilters((currentState) => {
-        return [
-          ...currentState.filter((x) => x.name !== target.name),
-          { name: target.name, value: target.value },
-        ];
-      });
+      setData(isOpen === "TEACHER" ? teachers : subjects);
+      setOptionSearch(
+        isOpen === "TEACHER"
+          ? { name: "Search ID Teacher", value: "id" }
+          : { name: "Search ID Subject", value: "id" }
+      );
+      setOptionFilter(
+        isOpen === "TEACHER" ? optionFilterDefault : optionFilterSubject
+      );
     }
-  };
+  }, [isOpen]);
 
   useEffect(() => {
     if (activeFilters.length === 0) {
-      setFilteredData([...rows]);
+      setFilteredData([...data]);
       return;
     }
 
-    let finalData = [...rows];
+    let finalData = [...data];
 
     const yearData = activeFilters.find(
       (element) =>
@@ -126,12 +105,87 @@ const Assignment = () => {
       finalData = finalData.filter((x) => x.idMajor === value);
     }
 
+    const semesterData = activeFilters.find(
+      (element) =>
+        element.name.toLowerCase() === "semester" &&
+        `${element.value}`.toLowerCase() !== "all"
+    );
+    if (semesterData) {
+      // Do some filtering for second select/dropdown
+      const { value } = semesterData;
+      // value is the value of your select dropdown that was selected
+      finalData = finalData.filter((x) => x.semester === value);
+    }
+
     setFilteredData(finalData);
-  }, [activeFilters]);
+  }, [activeFilters, data]);
 
   useEffect(() => {
     setSearchedData(filteredData);
   }, [filteredData]);
+
+  const handleChangeOption = (e) => {
+    const { target } = e;
+    setOption(target.value);
+  };
+
+  const handleSearch = (newFilter) => {
+    const { searchTerm } = newFilter;
+
+    setSearchedData(
+      searchTerm.trim() === ""
+        ? [...filteredData]
+        : filteredData.filter((item) =>
+            item[optionSearch.value]
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+          )
+    );
+  };
+
+  const handleChangeAssignmentData = (data) => {
+    const isInFilter = activeAssignment.some(
+      (element) => element.name === data.name
+    );
+
+    if (!isInFilter) {
+      setActiveAssignment((currentState) => {
+        return [...currentState, { name: data.name, value: data.value }];
+      });
+    } else {
+      setActiveAssignment((currentState) => {
+        return [
+          ...currentState.filter((x) => x.name !== data.name),
+          { name: data.name, value: data.value },
+        ];
+      });
+    }
+  };
+
+  const handleFilterChange = (event) => {
+    const { target } = event;
+
+    const isInFilter = activeFilters.some(
+      (element) => element.name === target.name
+    );
+
+    if (!isInFilter) {
+      setActiveFilters((currentState) => {
+        return [...currentState, { name: target.name, value: target.value }];
+      });
+    } else {
+      setActiveFilters((currentState) => {
+        return [
+          ...currentState.filter((x) => x.name !== target.name),
+          { name: target.name, value: target.value },
+        ];
+      });
+    }
+  };
+
+  const handleChangeValueButton = (newValue) => {
+    setIsOpen(newValue);
+  };
 
   return (
     <motion.div
@@ -143,63 +197,37 @@ const Assignment = () => {
       style={{ height: "100%" }}
     >
       <Stack
-        direction="row"
+        // direction="row"
         style={{
           height: "100%",
         }}
       >
-        <Box style={{ width: "50%", height: "100%" }}>
-          <Option
-            optionFilterData={optionFilterData}
-            handleFilterChange={handleFilterChange}
-            handleSearch={handleSearch}
-            nameSearch="Search Class Name"
+        <OptionAssignment
+          buttonData={buttonData}
+          optionFilter={optionFilter}
+          handleFilterChange={handleFilterChange}
+          handleSearch={handleSearch}
+          option={option}
+          handleChangeOption={handleChangeOption}
+          handleChangeValueButton={handleChangeValueButton}
+          hideButton={hideButton}
+          optionAssignment={optionAssignment}
+          nameSearch={optionSearch.name}
+        />
+        <Stack
+          direction="row"
+          style={{
+            height: "100%",
+          }}
+        >
+          <RenderDataChoose data={activeAssignment} />
+
+          <TableAssignmentRender
+            isOpen={isOpen}
+            searchedData={searchedData}
+            handleChangeAssignmentData={handleChangeAssignmentData}
           />
-          <Paper elevation={12}>
-            <Button variant="contained" onClick={() => setIsOpen(true)}>
-              Class
-            </Button>
-            <Button variant="contained" onClick={() => setIsOpen(false)}>
-              Teacher
-            </Button>
-          </Paper>
-        </Box>
-        <motion.div style={{ width: "50%" }}>
-          <AnimatePresence exitBeforeEnter initial={false}>
-            {isOpen && (
-              <motion.div
-                //   initial={{ scaleY: 0 }}
-                //   animate={{ scaleY: 1 }}
-                //   exit={{ scaleY: 0 }}
-                //   transition={{ duration: 0.5 }}
-                variants={pageVariants}
-                transition={pageTransition}
-                initial="initial"
-                animate="in"
-                exit="out"
-                style={{ width: "100%", height: "100%" }}
-                key={isOpen}
-              >
-                <TableVirtualized data={searchedData} />
-              </motion.div>
-            )}
-            {!isOpen && (
-              <motion.div
-                //   initial={{ scaleY: 0 }}
-                //   animate={{ scaleY: 1 }}
-                //   exit={{ scaleY: 0 }}
-                //   transition={{ duration: 0.5 }}
-                variants={pageVariants}
-                transition={pageTransition}
-                initial="initial"
-                animate="in"
-                exit="out"
-                style={{ width: "100%", height: "100%", background: "green" }}
-                key={isOpen}
-              ></motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+        </Stack>
       </Stack>
     </motion.div>
   );

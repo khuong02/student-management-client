@@ -44,40 +44,8 @@ const useContainerDimensions = (myRef) => {
   return dimensions;
 };
 
-const columns = (width) => [
-  {
-    width,
-    label: "ID CLASS",
-    dataKey: "id",
-  },
-  {
-    width,
-    label: "NAME CLASS",
-    dataKey: "className",
-    numeric: true,
-  },
-  {
-    width,
-    label: "NAME MAJOR",
-    dataKey: "nameMajor",
-    numeric: true,
-  },
-  //   {
-  //     width: width / 5,
-  //     label: "ID MAJOR",
-  //     dataKey: "idMajor",
-  //     numeric: true,
-  //   },
-  {
-    width,
-    label: "YEAR",
-    dataKey: "year",
-    numeric: true,
-  },
-];
-
 export default function ReactVirtualizedTable(props) {
-  const { data } = props;
+  const { data, handleChangeAssignmentData, name, columns } = props;
 
   const componentRef = useRef();
   const width = useContainerDimensions(componentRef);
@@ -88,7 +56,9 @@ export default function ReactVirtualizedTable(props) {
         rowCount={data.length}
         rowGetter={({ index }) => data[index]}
         columns={columns(width / 4)}
-        onRowClick={({ index }) => console.log(data[index])}
+        onRowClick={({ index }) =>
+          handleChangeAssignmentData({ name, value: data[index] })
+        }
       />
     </Paper>
   );

@@ -2,6 +2,10 @@ import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
 
+import { motion } from "framer-motion";
+
+import { pageVariants, pageTransition } from "../components/Animation";
+
 const BoxAdmissionStudent = () => {
   return (
     <>
@@ -54,7 +58,14 @@ const Admission = () => {
   const [check, setCheck] = useState(true);
 
   return (
-    <div className="admission-page">
+    <motion.div
+      className="admission-page"
+      variants={pageVariants}
+      transition={pageTransition}
+      initial="initial"
+      animate="in"
+      exit="out"
+    >
       <div className="container-form d-flex justify-content-center align-items-center">
         <div className="form-box">
           <h2>Admission</h2>
@@ -84,13 +95,13 @@ const Admission = () => {
             </button>
           </form>
           <div className="mt-3 box-link">
-            <Link className="text-decoration-none link-auth" to="/user/login">
+            <Link className="text-decoration-none link-auth" to="/auth/login">
               Đăng nhập ngay !
             </Link>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

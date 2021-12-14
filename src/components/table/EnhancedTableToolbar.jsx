@@ -65,6 +65,7 @@ const EnhancedTableToolbar = (props) => {
             optionFilterData={optionFilterData}
             handleFilterChange={handleFilterChange}
             handleSearch={handleSearch}
+            marginRight={"200px"}
           />
         </>
       )}

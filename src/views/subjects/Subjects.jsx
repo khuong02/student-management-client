@@ -8,6 +8,7 @@ import { Box } from "@mui/material";
 import SortTable from "../../components/table/SortTable";
 import RenderItemTableSubjects from "../../components/RenderItemTableSubjects";
 import FormCreateClass from "../../components/FormCreateClass";
+import { optionFilterSubject } from "../../components/OptionFilterData";
 
 const headCells = [
   {
@@ -70,28 +71,6 @@ const rows = [
   createData("15", "Nhap mon lap trinh 15", "KT", "I", "03"),
 ];
 
-const optionFilterData = [
-  {
-    name: "Semester",
-    option: [
-      { name: "HK I", value: "I" },
-      { name: "HK II", value: "II" },
-      { name: "HK III", value: "III" },
-      { name: "HK IV", value: "IV" },
-      { name: "HK V", value: "V" },
-      { name: "HK VI", value: "VI" },
-    ],
-  },
-  {
-    name: "Major",
-    option: [
-      { name: "TH", value: "01" },
-      { name: "CK", value: "02" },
-      { name: "KT", value: "03" },
-    ],
-  },
-];
-
 const Subjects = () => {
   return (
     <motion.div
@@ -104,7 +83,7 @@ const Subjects = () => {
     >
       <Box style={{ padding: "0 15px", position: "relative", height: "100%" }}>
         <SortTable
-          optionFilterData={optionFilterData}
+          optionFilterData={optionFilterSubject}
           headCells={headCells}
           rows={rows}
           RenderItem={RenderItemTableSubjects}
