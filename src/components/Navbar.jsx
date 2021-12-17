@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   Drawer,
@@ -21,8 +22,12 @@ import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
 import { Link, useLocation } from "react-router-dom";
 
 import { useStyle, defaultList } from "../styles/useStyle";
+import methodApi from "../api/methodApi";
+import { logoutSuccess } from "../features/auth";
 
 const Navbar = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const classes = useStyle();
   const { pathname } = useLocation();
 
@@ -58,12 +63,16 @@ const Navbar = () => {
       icon: <StackedBarChartIcon className={classes.icon} />,
       path: "/chart",
     },
-    {
-      name: "Logout",
-      icon: <LogoutIcon className={classes.icon} />,
-      path: "/logout",
-    },
   ];
+
+  const handleLogout = async () => {
+    try {
+      await methodApi.delete("api/user/logout", currentUser.uuid);
+      dispatch(logoutSuccess());
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Drawer
@@ -101,6 +110,18 @@ const Navbar = () => {
           </List>
         );
       })}
+      <List
+        sx={defaultList}
+        onClick={handleLogout}
+        style={{ color: "#03e9f4" }}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <LogoutIcon className={classes.icon} />
+          </ListItemIcon>
+          <ListItemText primary={"Logout"} />
+        </ListItem>
+      </List>
     </Drawer>
   );
 };

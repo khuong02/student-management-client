@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import { pageVariants, pageTransition } from "../components/Animation";
 import methodApi from "../api/methodApi";
-import { loginSlice } from "../slice/auth";
+import { loginPending, loginFailed, loginSuccess } from "../features/auth";
+import { getInfo } from "../features/user";
+import { unwrapResult } from "@reduxjs/toolkit";
+// import axios from "axios";
 
 const initialState = {
   account: "",
   password: "",
-  err: "",
 };
 
 const Login = () => {
   const [login, setLogin] = useState(initialState);
-  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const { account, password } = login;
@@ -29,26 +30,27 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(loginPending());
       const res = await methodApi.post("/api/user/login", {
         account,
         password,
       });
 
-      //set action
-      const action = loginSlice(res.accessToken);
+      if (res.msg) {
+        dispatch(loginFailed(res));
+        setLogin({ ...login, account: "", password: "" });
+        return;
+      }
 
+      //set action
+      const action = loginSuccess(res);
       //dispatch action
       dispatch(action);
-
-      setLogin({ ...login, account: "", password: "", err: "" });
+      const actionResult = await dispatch(getInfo());
+      unwrapResult(actionResult);
+      //   const currentResult = ;
     } catch (err) {
-      err &&
-        setLogin((currentState) => ({
-          ...currentState,
-          account: "",
-          password: "",
-          err: "Account or Password error",
-        }));
+      err && dispatch(loginFailed(err));
     }
   };
 

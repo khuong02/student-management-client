@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient.jsx";
 
 const methodApi = {
   getAll: (url, params) => {
-    return axiosClient.get(url, { params });
+    return axiosClient.get(url, params);
   },
 
   get: (url, id) => {
@@ -11,6 +11,10 @@ const methodApi = {
 
   post: (url, params) => {
     return axiosClient.post(url, params);
+  },
+
+  delete: (url, id) => {
+    return axiosClient.delete(`${url}/${id}`);
   },
 };
 

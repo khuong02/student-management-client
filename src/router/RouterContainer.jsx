@@ -1,16 +1,54 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import PrivateRouter from "./privateRouter/PrivateRouter";
+import AuthRouter from "./authRouter/AuthRouter";
+import { getInfo } from "../features/user";
+import { logoutSuccess } from "../features/auth";
 
 const DefaultLayout = React.lazy(() => import("../layout/DefaultLayout"));
 const Auth = React.lazy(() => import("../auth/Auth"));
 
 const RouterContainer = () => {
+  const auth = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        if (!auth) return;
+        const actionResult = await dispatch(getInfo());
+        unwrapResult(actionResult);
+        // const currentResult =
+      } catch (err) {
+        err && dispatch(logoutSuccess());
+      }
+    };
+    getUser();
+  }, [dispatch, auth]);
+
   return (
     <Router>
       <Routes>
-        <Route path="/*" element={<DefaultLayout />} />
-        <Route path="/auth/*" element={<Auth />} />
+        <Route
+          path="/*"
+          element={
+            <PrivateRouter auth={auth}>
+              <DefaultLayout />
+            </PrivateRouter>
+          }
+        />
+        <Route
+          path="/auth/*"
+          element={
+            <AuthRouter auth={auth}>
+              <Auth />
+            </AuthRouter>
+          }
+        />
       </Routes>
     </Router>
   );
