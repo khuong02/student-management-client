@@ -7,24 +7,24 @@ const userApi = {
     const { token, account } = store.getState().auth;
     return new Promise(async (resolve, reject) => {
       const checkHasTokenExpired = async (token) => {
-        //create token send server
-        const config = {
-          headers: { Authorization: "Bearer " + token },
-        };
-        const res = await methodApi.getAll("/api/user/posts", config);
+        try {
+          const config = {
+            headers: { Authorization: "Bearer " + token },
+          };
+          const res = await methodApi.getAll("/api/user/posts", config);
+          //check has token expired yet?
+          if (!res) {
+            const newAccessToken = await refreshToken(account);
 
-        //check has token expired yet?
-        if (res.success === false) {
-          const checkRefreshToken = await refreshToken(account);
-
-          //check has refresh token expired yet?
-
-          checkRefreshToken.success === false
-            ? reject(checkRefreshToken.msg)
-            : checkHasTokenExpired(checkRefreshToken.accessToken);
-        } else {
-          resolve({ res, token });
+            //check has refresh token expired yet?
+            checkHasTokenExpired(newAccessToken.accessToken);
+          } else {
+            resolve({ res, token });
+          }
+        } catch (err) {
+          reject(err.msg);
         }
+        //create token send server
       };
 
       checkHasTokenExpired(token);

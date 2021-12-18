@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { useSnackbar } from "notistack";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -15,6 +16,7 @@ const Auth = React.lazy(() => import("../auth/Auth"));
 const RouterContainer = () => {
   const auth = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const getUser = async () => {
@@ -24,11 +26,14 @@ const RouterContainer = () => {
         unwrapResult(actionResult);
         // const currentResult =
       } catch (err) {
-        err && dispatch(logoutSuccess());
+        if (err) {
+          dispatch(logoutSuccess());
+          enqueueSnackbar(err.message, { variant: "error" });
+        }
       }
     };
     getUser();
-  }, [dispatch, auth]);
+  }, [dispatch, auth, enqueueSnackbar]);
 
   return (
     <Router>
