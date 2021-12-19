@@ -13,7 +13,7 @@ const userApi = {
           };
           const res = await methodApi.getAll("/api/user/posts", config);
           //check has token expired yet?
-          if (!res) {
+          if (res.status === 403) {
             const newAccessToken = await refreshToken(account);
 
             //check has refresh token expired yet?
@@ -22,7 +22,7 @@ const userApi = {
             resolve({ res, token });
           }
         } catch (err) {
-          reject(err.msg);
+          reject(err);
         }
         //create token send server
       };

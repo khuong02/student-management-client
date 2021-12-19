@@ -32,7 +32,7 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     // Handle errors
-    return error.status;
+    return error.response;
   }
 );
 export default axiosClient;
