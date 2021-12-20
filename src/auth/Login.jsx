@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useSnackbar } from "notistack";
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -8,8 +10,7 @@ import { pageVariants, pageTransition } from "../components/Animation";
 import methodApi from "../api/methodApi";
 import { loginPending, loginFailed, loginSuccess } from "../features/auth";
 import { getInfo } from "../features/user";
-import { unwrapResult } from "@reduxjs/toolkit";
-// import axios from "axios";
+import { usersValidation } from "./validation";
 
 const initialState = {
   account: "",
@@ -17,10 +18,24 @@ const initialState = {
 };
 
 const Login = () => {
+  const auth = useSelector((state) => state.auth);
+  const { enqueueSnackbar } = useSnackbar();
   const [login, setLogin] = useState(initialState);
+  const [checkAccount, setCheckAccount] = useState(true);
+
   const dispatch = useDispatch();
 
   const { account, password } = login;
+
+  useEffect(() => {
+    if (account !== "") {
+      const check = setTimeout(() => {
+        setCheckAccount(usersValidation(account) ? true : false);
+      }, 300);
+      return () => clearTimeout(check);
+    }
+    setCheckAccount(true);
+  }, [account, auth.error]);
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -31,13 +46,14 @@ const Login = () => {
     e.preventDefault();
     try {
       dispatch(loginPending());
-      const res = await methodApi.post("/api/user/login", {
+      const res = await methodApi.post(`/api/user/login`, {
         account,
         password,
       });
 
-      if (res.msg) {
-        dispatch(loginFailed(res));
+      if (res.status === 400) {
+        dispatch(loginFailed(true));
+        enqueueSnackbar(res.data.msg, { variant: "error" });
         setLogin({ ...login, account: "", password: "" });
         return;
       }
@@ -50,7 +66,12 @@ const Login = () => {
       unwrapResult(actionResult);
       //   const currentResult = ;
     } catch (err) {
-      err && dispatch(loginFailed(err));
+      console.log(err);
+      if (err) {
+        dispatch(loginFailed(true));
+        enqueueSnackbar(err.data.msg, { variant: "error" });
+        setLogin({ ...login, account: "", password: "" });
+      }
     }
   };
 
@@ -73,14 +94,17 @@ const Login = () => {
                 name="account"
                 onChange={handleChangeInput}
                 value={account}
+                className={!checkAccount ? "account-error input" : "input"}
                 required
               />
+
               <label>Username</label>
             </div>
             <div className="user-box">
               <input
                 type="password"
                 name="password"
+                className="input"
                 onChange={handleChangeInput}
                 value={password}
                 required

@@ -13,6 +13,7 @@ const notice = createSlice({
       state.success = action.payload;
     },
     noticeFailed(state, action) {
+      console.log(action);
       state.error = action.payload;
     },
   },
