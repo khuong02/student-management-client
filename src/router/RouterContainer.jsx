@@ -24,9 +24,12 @@ const RouterContainer = () => {
   useEffect(() => {
     const getListData = async () => {
       try {
-        if (!currentUser.roles || currentUser.roles.toUpperCase() === "03")
+        if (
+          !currentUser.roles ||
+          currentUser.roles.toUpperCase() ===
+            process.env.REACT_APP_ROLES_STUDENT
+        )
           return;
-        console.log(process.env);
         if (
           currentUser.roles.toUpperCase() === process.env.REACT_APP_ROLES_ADMIN
         ) {

@@ -6,7 +6,6 @@ export const getDataStudent = createAsyncThunk(
   async (params, thunkApi) => {
     const res = await getDataList.getStudentsList();
     thunkApi.dispatch(setStudentsList(res.data));
-    console.log(res);
     return res;
   }
 );
@@ -33,13 +32,12 @@ const student = createSlice({
       state.loading = true;
     },
     [getDataStudent.rejected]: (state, action) => {
-      //   state.loading = false;
-      //   state.err = action.error.message;
+      state.loading = false;
+      state.err = action.error.message;
     },
     [getDataStudent.fulfilled]: (state, action) => {
-      console.log(action.payload);
       state.loading = false;
-      state.studentsList = action.payload.data;
+      state.studentsList = action.payload;
     },
   },
 });
