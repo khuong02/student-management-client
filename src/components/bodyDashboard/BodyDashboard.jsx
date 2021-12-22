@@ -39,17 +39,6 @@ const BodyDashboard = (props) => {
   return (
     <Box className={classes.componentChildDashboard}>
       <motion.div variants={Animation.cardAnimation} animate="show" exit="hide">
-        {/* <Grid
-          container
-          spacing={{ xs: 2, md: 8 }}
-          columns={{ xs: 4, sm: 4, md: 12 }}
-          style={{ margin: "auto" }}
-        >
-          <Grid item xs={2} sm={4} md={5.5}>
-          </Grid>
-          <Grid item xs={2} sm={4} md={5.5}>
-          </Grid>
-        </Grid> */}
         <Stack direction="row" spacing={2}>
           <TableDashboard data={rows} />
           <NoticeDashboard classes={classes} data={notice} />

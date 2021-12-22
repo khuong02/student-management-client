@@ -6,7 +6,7 @@ const refreshToken = async (account) => {
       try {
         const res = await methodApi.post(`/api/user/token`, { account });
         if (res.status === 403) reject(res.data.msg);
-        resolve(res.data);
+        resolve(res);
       } catch (err) {
         console.log(err);
       }

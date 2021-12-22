@@ -5,9 +5,9 @@ import { setToken } from "./auth";
 export const getInfo = createAsyncThunk(
   "/user/getInfo",
   async (params, thunkApi) => {
-    const currentUser = await userApi.getUser();
-    thunkApi.dispatch(setToken(currentUser.token));
-    return currentUser;
+    const res = await userApi.getUser();
+    thunkApi.dispatch(setToken(res.token));
+    return res;
   }
 );
 

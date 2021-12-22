@@ -1,12 +1,20 @@
 import axiosClient from "./axiosClient.jsx";
 
 const methodApi = {
-  getAll: (url, params) => {
-    return axiosClient.get(url, params);
+  getParams: (url, params) => {
+    return axiosClient.get(url, { params });
   },
 
-  get: (url, id) => {
-    return axiosClient.get(`${url}/${id}`);
+  getAll: (url) => {
+    return axiosClient.get(url);
+  },
+
+  getToken: (url, config) => {
+    return axiosClient.get(url, config);
+  },
+
+  getForId: (url) => {
+    return axiosClient.get(url);
   },
 
   post: (url, params) => {

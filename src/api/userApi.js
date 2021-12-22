@@ -11,11 +11,10 @@ const userApi = {
           const config = {
             headers: { Authorization: "Bearer " + token },
           };
-          const res = await methodApi.getAll("/api/user/posts", config);
+          const res = await methodApi.getToken("/api/user/posts", config);
           //check has token expired yet?
           if (res.status === 403) {
             const newAccessToken = await refreshToken(account);
-
             //check has refresh token expired yet?
             checkHasTokenExpired(newAccessToken.accessToken);
           } else {

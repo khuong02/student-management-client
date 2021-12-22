@@ -1,8 +1,39 @@
 import axios from "axios";
 import queryString from "query-string";
-// Set up default config for http requests here
+// import store from "../redux/store";
+// import methodApi from "./methodApi";
+// import refreshToken from "../auth/refreshToken";
+// // Set up default config for http requests here
 
-// Please have a look at here `https://github.com/axios/axios#request-config` for the full list of configs
+// // Please have a look at here `https://github.com/axios/axios#request-config` for the full list of configs
+
+// const getToken = async () => {
+//   const { token, account } = store.getState().auth;
+//   if (!token) return null;
+//   return new Promise((resolve, reject) => {
+//     const checkHasTokenExpired = async (token) => {
+//       try {
+//         const config = {
+//           headers: { Authorization: "Bearer " + token },
+//         };
+//         const res = await methodApi.getToken("/api/user/posts", config);
+//         //check has token expired yet?
+//         if (res.status === 403) {
+//           const newAccessToken = await refreshToken(account);
+//           //check has refresh token expired yet?
+//           checkHasTokenExpired(newAccessToken.accessToken);
+//         } else {
+//           resolve(token);
+//         }
+//       } catch (err) {
+//         reject(null);
+//       }
+//       //create token send server
+//     };
+
+//     checkHasTokenExpired(token);
+//   });
+// };
 
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -14,13 +45,12 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(async (config) => {
   // Handle token here ...
-  //   const token = getServerToken();
-  //   console.log(token);
+  //   const token = await getToken();
+  //   console.log("result: " + token);
   //   if (token) {
   //     config.headers.Authorization = `Bearer ${token}`;
   //   }
-
-  return config;
+    return config;
 });
 
 axiosClient.interceptors.response.use(
