@@ -11,13 +11,12 @@ import SortTable from "../../components/table/SortTable";
 import FormCreateClass from "../../components/FormCreateClass";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { formatDate } from "../../moment/moment";
-import { headCellsStudent } from "../headerTableData/headerTableData";
+import { headCellsTeacher } from "../headerTableData/headerTableData";
 
-function createData(id, name, className, birthday, nameMajor, year, idMajor) {
+function createData(id, name, birthday, nameMajor, year, idMajor) {
   return {
     id,
     name,
-    className: className === "" ? "Not Class ♥" : className,
     birthday: formatDate(birthday),
     nameMajor,
     year,
@@ -25,27 +24,26 @@ function createData(id, name, className, birthday, nameMajor, year, idMajor) {
   };
 }
 
-const Student = () => {
-  const { studentsList } = useSelector((state) => state.student);
+const Teacher = () => {
+  const { teachersList } = useSelector((state) => state.teacher);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(
-      studentsList
-        ? studentsList.map((item) =>
+      teachersList
+        ? teachersList.map((item) =>
             createData(
-              item.studentCode,
+              item.teacherCode,
               item.name,
-              item.classCode,
               item.birthday,
               item.majorCode,
-              item.schoolYear,
+              item.year,
               item.majorCode
             )
           )
         : []
     );
-  }, [studentsList]);
+  }, [teachersList]);
 
   return (
     <motion.div
@@ -59,11 +57,11 @@ const Student = () => {
       <Box style={{ padding: "0 15px", position: "relative", height: "100%" }}>
         <SortTable
           optionFilterData={optionFilterDefault}
-          headCells={headCellsStudent}
+          headCells={headCellsTeacher}
           rows={data}
           FormCreate={FormCreateClass}
           nameButton="Create Student"
-          nameTable="List Students"
+          nameTable="List TEACHERS"
           optionSearch="id"
         />
       </Box>
@@ -71,4 +69,4 @@ const Student = () => {
   );
 };
 
-export default Student;
+export default Teacher;

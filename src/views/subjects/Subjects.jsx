@@ -6,42 +6,9 @@ import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
 import SortTable from "../../components/table/SortTable";
-import RenderItemTableSubjects from "../../components/RenderItemTableSubjects";
 import FormCreateClass from "../../components/FormCreateClass";
 import { optionFilterSubject } from "../../components/OptionFilterData";
-
-const headCells = [
-  {
-    id: "id",
-    numeric: false,
-    disablePadding: true,
-    label: "ID SUBJECT",
-  },
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: false,
-    label: "NAME SUBJECT",
-  },
-  {
-    id: "nameMajor",
-    numeric: false,
-    disablePadding: false,
-    label: "NAME MAJOR",
-  },
-  {
-    id: "semester",
-    numeric: false,
-    disablePadding: false,
-    label: "SEMESTER",
-  },
-  {
-    id: "views",
-    numeric: true,
-    disablePadding: false,
-    label: "VIEWS",
-  },
-];
+import { headCellsSubject } from "../headerTableData/headerTableData";
 
 function createData(id, name, nameMajor, semester, idMajor) {
   return {
@@ -84,9 +51,8 @@ const Subjects = () => {
       <Box style={{ padding: "0 15px", position: "relative", height: "100%" }}>
         <SortTable
           optionFilterData={optionFilterSubject}
-          headCells={headCells}
+          headCells={headCellsSubject}
           rows={rows}
-          RenderItem={RenderItemTableSubjects}
           FormCreate={FormCreateClass}
           nameButton="Create Subject"
           nameTable="List Subjects"

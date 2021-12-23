@@ -34,7 +34,6 @@ EnhancedTable.defaultProps = {
   rows: [],
   optionFilterData: [],
   FormCreate: null,
-  RenderItem: null,
   nameButton: "",
   nameTable: "",
   optionSearch: "",
@@ -44,7 +43,6 @@ export default function EnhancedTable(props) {
   const {
     headCells,
     rows,
-    RenderItem,
     FormCreate,
     nameButton,
     nameTable,
@@ -226,51 +224,54 @@ export default function EnhancedTable(props) {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {RenderItem !== null &&
-                stableSort(searchedData, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const isItemSelected = isSelected(row.id);
-                    const labelId = `enhanced-table-checkbox-${index}`;
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.id)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isItemSelected}
+              {stableSort(searchedData, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const isItemSelected = isSelected(row.id);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const keys = Object.keys(row);
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            "aria-labelledby": labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={row.id}
+                        scope="row"
+                        padding="none"
                       >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            color="primary"
-                            checked={isItemSelected}
-                            inputProps={{
-                              "aria-labelledby": labelId,
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                        >
-                          {row.id}
-                        </TableCell>
-                        <RenderItem item={row} />
-                        <TableCell align="right">
-                          <Link
-                            className="link-views-classes"
-                            to={`/${row.id}`}
-                          >
-                            <Visibility />
-                          </Link>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                        {row.id}
+                      </TableCell>
+                      {keys
+                        .filter((key) => key !== "idMajor" && key !== "id")
+                        .map((key) => {
+                          return (
+                            <TableCell key={row[key]}>{row[key]}</TableCell>
+                          );
+                        })}
+                      <TableCell align="right">
+                        <Link className="link-views-classes" to={`/${row.id}`}>
+                          <Visibility />
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               {emptyRows > 0 && (
                 <TableRow>
                   <TableCell colSpan={6} />

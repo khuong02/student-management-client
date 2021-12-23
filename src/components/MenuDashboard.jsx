@@ -14,19 +14,20 @@ const MenuDashboard = (props) => {
       className={classes.componentChildDashboard}
       style={{ marginBottom: "30px" }}
     >
-      <motion.h3
+      {/* <motion.h3
         variants={animation.h3Animation}
         animate="show"
         exit="hide"
         style={{ textAlign: "center" }}
       >
         Dashboard
-      </motion.h3>
+      </motion.h3> */}
       <motion.div variants={animation.gridAnimation} animate="show" exit="hide">
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 5, sm: 8, md: 12 }}
+          style={{ paddingTop: "1%" }}
         >
           {data.map((item, index) => (
             <Grid

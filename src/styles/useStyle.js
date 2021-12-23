@@ -39,7 +39,7 @@ export const useStyle = makeStyles((theme) => ({
     flex: "1",
   },
   boxAvatar: {
-    height: "300px",
+    height: "250px",
     position: "relative",
     display: "flex",
     flexDirection: "column",

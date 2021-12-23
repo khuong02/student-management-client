@@ -6,54 +6,9 @@ import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
 import SortTable from "../../components/table/SortTable";
-import RenderItemTableClasses from "../../components/RenderItemTableClasses";
 import FormCreateClass from "../../components/FormCreateClass";
 import { optionFilterDefault } from "../../components/OptionFilterData";
-
-const headCells = [
-  {
-    id: "id",
-    numeric: false,
-    disablePadding: true,
-    label: "ID CLASSES",
-  },
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: false,
-    label: "CLASS NAME",
-  },
-  {
-    id: "idTeacher",
-    numeric: false,
-    disablePadding: false,
-    label: "ID TEACHER",
-  },
-  {
-    id: "quantityStudent",
-    numeric: false,
-    disablePadding: false,
-    label: "QUANTITY STUDENT",
-  },
-  {
-    id: "nameMajor",
-    numeric: false,
-    disablePadding: false,
-    label: "NAME MAJOR",
-  },
-  {
-    id: "year",
-    numeric: false,
-    disablePadding: false,
-    label: "YEAR",
-  },
-  {
-    id: "views",
-    numeric: true,
-    disablePadding: false,
-    label: "VIEWS",
-  },
-];
+import { headCellsClass } from "../headerTableData/headerTableData";
 
 function createData(
   id,
@@ -106,9 +61,8 @@ const Classes = () => {
       <Box style={{ padding: "0 15px", position: "relative", height: "100%" }}>
         <SortTable
           optionFilterData={optionFilterDefault}
-          headCells={headCells}
+          headCells={headCellsClass}
           rows={rows}
-          RenderItem={RenderItemTableClasses}
           FormCreate={FormCreateClass}
           nameButton="Create Class"
           nameTable="List Classes"
