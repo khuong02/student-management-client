@@ -20,6 +20,7 @@ import userSlice from "../features/user";
 import noticeSlice from "../features/notice";
 import studentSlice from "../features/assignment/student";
 import teacherSlice from "../features/assignment/teacher";
+import classesSlice from "../features/classes/classes";
 
 const persistConfig = {
   key: "root",
@@ -33,6 +34,7 @@ const reducer = combineReducers({
   notice: noticeSlice,
   student: studentSlice,
   teacher: teacherSlice,
+  classes: classesSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

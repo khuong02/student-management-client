@@ -8,8 +8,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRouter from "./privateRouter/PrivateRouter";
 import AuthRouter from "./authRouter/AuthRouter";
 import { getInfo } from "../features/user";
-import { getDataStudent } from "../features/assignment/student";
-import { getDataTeacher } from "../features/assignment/teacher";
+// import { getDataStudent } from "../features/assignment/student";
+// import { getDataTeacher } from "../features/assignment/teacher";
+// import { callApiClasses } from "../features/classes/classes";
 import { logoutSuccess } from "../features/auth";
 
 const DefaultLayout = React.lazy(() => import("../layout/DefaultLayout"));
@@ -17,37 +18,8 @@ const Auth = React.lazy(() => import("../auth/Auth"));
 
 const RouterContainer = () => {
   const auth = useSelector((state) => state.auth.token);
-  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-
-  useEffect(() => {
-    const getListData = async () => {
-      try {
-        if (
-          !currentUser.roles ||
-          currentUser.roles.toUpperCase() ===
-            process.env.REACT_APP_ROLES_STUDENT
-        )
-          return;
-        if (
-          currentUser.roles.toUpperCase() === process.env.REACT_APP_ROLES_ADMIN
-        ) {
-          const studentListAction = await dispatch(getDataStudent());
-          unwrapResult(studentListAction);
-          const teacherAction = await dispatch(getDataTeacher());
-          unwrapResult(teacherAction);
-          //   const studentListResult =
-          //  const teacherResult =
-          //   console.log("student: " + studentListResult);
-          //   console.log("teacher: " + teacherResult);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getListData();
-  }, [currentUser, dispatch]);
 
   useEffect(() => {
     const getUser = async () => {
