@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { unwrapResult } from "@reduxjs/toolkit";
+import fetchData from "../../customize/fetchData";
 
 import { motion } from "framer-motion";
 
@@ -52,33 +51,9 @@ function createData(
 // ];
 
 const Classes = () => {
-  const { classes } = useSelector((state) => state.classes);
-  const { currentUser } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const classes = fetchData({ funcAction: callApiClasses });
 
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const getListData = async () => {
-      try {
-        if (
-          !currentUser.roles ||
-          currentUser.roles.toUpperCase() ===
-            process.env.REACT_APP_ROLES_STUDENT
-        )
-          return;
-        if (
-          currentUser.roles.toUpperCase() === process.env.REACT_APP_ROLES_ADMIN
-        ) {
-          const classListAction = await dispatch(callApiClasses);
-          unwrapResult(classListAction);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getListData();
-  }, [currentUser, dispatch]);
 
   useEffect(() => {
     setData(

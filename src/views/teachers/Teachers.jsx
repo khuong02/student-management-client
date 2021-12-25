@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { unwrapResult } from "@reduxjs/toolkit";
+import fetchData from "../../customize/fetchData";
 
 import { motion } from "framer-motion";
 
@@ -27,33 +26,9 @@ function createData(id, name, birthday, nameMajor, year, idMajor) {
 }
 
 const Teacher = () => {
-  const { teachersList } = useSelector((state) => state.teacher);
-  const { currentUser } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const teachersList = fetchData({ funcAction: getDataTeacher });
 
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const getListData = async () => {
-      try {
-        if (
-          !currentUser.roles ||
-          currentUser.roles.toUpperCase() ===
-            process.env.REACT_APP_ROLES_STUDENT
-        )
-          return;
-        if (
-          currentUser.roles.toUpperCase() === process.env.REACT_APP_ROLES_ADMIN
-        ) {
-          const teacherListAction = await dispatch(getDataTeacher());
-          unwrapResult(teacherListAction);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getListData();
-  }, [currentUser, dispatch]);
 
   useEffect(() => {
     setData(

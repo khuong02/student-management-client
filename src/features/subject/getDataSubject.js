@@ -1,15 +1,15 @@
 import methodApi from "../../api/methodApi";
 
-const getDataClasses = {
-  getClasses: async () => {
+const getDataSubject = {
+  getSubject: async () => {
     return new Promise((resolve, reject) => {
       const getData = async () => {
         try {
-          const classes = await methodApi.getAll("/api/classes");
+          const subject = await methodApi.getAll("/api/subjects");
 
-          if (!classes || classes.success === false) resolve([]);
+          if (!subject || subject.success === false) resolve([]);
 
-          resolve(classes.data);
+          resolve(subject.data);
         } catch (err) {
           reject(err.response.data);
         }
@@ -19,4 +19,4 @@ const getDataClasses = {
   },
 };
 
-export default getDataClasses;
+export default getDataSubject;

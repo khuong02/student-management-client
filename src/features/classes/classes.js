@@ -5,7 +5,6 @@ export const callApiClasses = createAsyncThunk(
   "classes/getDataClasses",
   async (params, thunkApi) => {
     const res = await getDataClasses.getClasses();
-    console.log(res);
     return res;
   }
 );
@@ -36,7 +35,6 @@ const classes = createSlice({
       state.classes = action.payload;
     },
     [callApiClasses.fulfilled]: (state, action) => {
-      console.log(action);
       state.loading = false;
       state.classes = action.payload;
     },

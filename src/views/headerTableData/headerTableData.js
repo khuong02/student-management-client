@@ -108,6 +108,18 @@ export const headCellsSubject = [
     label: "NAME MAJOR",
   },
   {
+    id: "typeSubject",
+    numeric: false,
+    disablePadding: false,
+    label: "TYPE SUBJECT",
+  },
+  {
+    id: "numberOfCredits",
+    numeric: false,
+    disablePadding: false,
+    label: "Number Of Credits",
+  },
+  {
     id: "semester",
     numeric: false,
     disablePadding: false,
@@ -157,6 +169,39 @@ export const headCellsClass = [
     numeric: false,
     disablePadding: false,
     label: "YEAR",
+  },
+  {
+    id: "views",
+    numeric: true,
+    disablePadding: false,
+    label: "VIEWS",
+  },
+];
+
+export const headCellsMajor = [
+  {
+    id: "id",
+    numeric: false,
+    disablePadding: true,
+    label: "ID MAJOR",
+  },
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: false,
+    label: "MAJOR NAME",
+  },
+  {
+    id: "benchmark",
+    numeric: false,
+    disablePadding: false,
+    label: "BENCHMARK",
+  },
+  {
+    id: "quantity",
+    numeric: false,
+    disablePadding: false,
+    label: "QUANTITY",
   },
   {
     id: "views",
