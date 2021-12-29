@@ -7,27 +7,17 @@ import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
 import SortTable from "../../components/table/SortTable";
-import FormCreateClass from "../../components/FormCreateClass";
+import FormCreateSubject from "../../components/FormCreateSubject";
 import { optionFilterSubject } from "../../components/OptionFilterData";
 import { headCellsSubject } from "../headerTableData/headerTableData";
 import { callApiSubject } from "../../features/subject/subject";
 
-function createData(
-  id,
-  name,
-  nameMajor,
-  typeSubject,
-  numberOfCredits,
-  semester,
-  idMajor
-) {
+function createData(id, name, nameMajor, typeSubject, idMajor) {
   return {
     id,
     name,
     nameMajor,
     typeSubject,
-    numberOfCredits,
-    semester,
     idMajor,
   };
 }
@@ -64,8 +54,6 @@ const Subjects = () => {
               item.nameSubject,
               item.majorCode,
               item.typeSubject,
-              item.numberOfCredits,
-              item.semester,
               item.majorCode
             )
           )
@@ -87,7 +75,7 @@ const Subjects = () => {
           optionFilterData={optionFilterSubject}
           headCells={headCellsSubject}
           rows={data}
-          FormCreate={FormCreateClass}
+          FormCreate={FormCreateSubject}
           nameButton="Create Subject"
           nameTable="List Subjects"
           optionSearch="id"

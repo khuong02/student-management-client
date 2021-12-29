@@ -39,6 +39,7 @@
     "redux-persist": "^6.0.0",
     "sass": "^1.43.4",
     "slick-carousel": "^1.8.1",
+    "uuidv4": "^6.2.12",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

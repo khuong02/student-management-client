@@ -260,9 +260,11 @@ export default function EnhancedTable(props) {
                       </TableCell>
                       {keys
                         .filter((key) => key !== "idMajor" && key !== "id")
-                        .map((key) => {
+                        .map((key, index) => {
                           return (
-                            <TableCell key={row[key]}>{row[key]}</TableCell>
+                            <TableCell key={`${key.id}${index}`}>
+                              {row[key]}
+                            </TableCell>
                           );
                         })}
                       <TableCell align="right">

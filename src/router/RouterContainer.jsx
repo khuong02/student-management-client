@@ -8,9 +8,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRouter from "./privateRouter/PrivateRouter";
 import AuthRouter from "./authRouter/AuthRouter";
 import { getInfo } from "../features/user";
-// import { getDataStudent } from "../features/assignment/student";
-// import { getDataTeacher } from "../features/assignment/teacher";
-// import { callApiClasses } from "../features/classes/classes";
 import { logoutSuccess } from "../features/auth";
 
 const DefaultLayout = React.lazy(() => import("../layout/DefaultLayout"));
@@ -37,7 +34,7 @@ const RouterContainer = () => {
     getUser();
   }, [dispatch, auth, enqueueSnackbar]);
 
-  useEffect(() => {}, []);
+  //   useEffect(() => {}, []);
 
   return (
     <Router>

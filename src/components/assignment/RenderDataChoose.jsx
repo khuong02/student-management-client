@@ -18,10 +18,7 @@ const RenderDataChoose = (props) => {
   const { data } = props;
   return (
     <Box style={{ width: "50%", height: "100%" }}>
-      <Stack
-        spacing={3}
-        style={{ background: "#ddd", height: "100%", padding: "2%" }}
-      >
+      <Stack spacing={3} style={{ height: "100%", padding: "2%" }}>
         {data.map((obj, index) => {
           const keys = Object.keys(obj.value).filter(
             (key) => key !== "idMajor"

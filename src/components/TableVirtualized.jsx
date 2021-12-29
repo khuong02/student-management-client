@@ -46,7 +46,6 @@ const useContainerDimensions = (myRef) => {
 
 export default function ReactVirtualizedTable(props) {
   const { data, handleChangeAssignmentData, name, columns } = props;
-
   const componentRef = useRef();
   const width = useContainerDimensions(componentRef);
 
@@ -56,9 +55,10 @@ export default function ReactVirtualizedTable(props) {
         rowCount={data.length}
         rowGetter={({ index }) => data[index]}
         columns={columns(width / 4)}
-        onRowClick={({ index }) =>
-          handleChangeAssignmentData({ name, value: data[index] })
-        }
+        onRowClick={({ index }) => {
+          if (!handleChangeAssignmentData) return;
+          return handleChangeAssignmentData({ name, value: data[index] });
+        }}
       />
     </Paper>
   );

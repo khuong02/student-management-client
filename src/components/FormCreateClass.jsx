@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import methodApi from "../api/methodApi";
 
 import { Button } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,6 +9,7 @@ import Select from "@mui/material/Select";
 import ClearIcon from "@mui/icons-material/Clear";
 
 import { motion } from "framer-motion";
+import { useSnackbar } from "notistack";
 
 const carAnimation = {
   open: { x: [0, 50], opacity: [0, 1] },
@@ -25,6 +27,7 @@ const variants = {
 
 const FormCreateClass = ({ toggle }) => {
   const [option, setOption] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const major = [
     { name: "TH", value: "01" },
@@ -35,6 +38,22 @@ const FormCreateClass = ({ toggle }) => {
   const handleChange = (event) => {
     const { target } = event;
     setOption(target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await methodApi.post("/api/user/create_class", {
+        major: option,
+      });
+      if (res.status === 400) {
+        enqueueSnackbar(res.data.msg, { variant: "error" });
+        return;
+      }
+      window.location.href = "/classes";
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -62,9 +81,6 @@ const FormCreateClass = ({ toggle }) => {
             //   name={name}
             onChange={handleChange}
           >
-            {/* <MenuItem value="all">
-            <em>All</em>
-          </MenuItem> */}
             {major.map((item, index) => {
               return (
                 <MenuItem key={index} value={item.value}>
@@ -74,10 +90,13 @@ const FormCreateClass = ({ toggle }) => {
             })}
           </Select>
         </FormControl>
-        <Button variant="contained" sx={{ m: 1, minWidth: 140, minHeight: 50 }}>
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{ m: 1, minWidth: 140, minHeight: 50 }}
+        >
           Create
         </Button>
-        {/* </Paper> */}
       </motion.div>
     </motion.div>
   );

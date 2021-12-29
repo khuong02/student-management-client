@@ -18,9 +18,12 @@ const TableAssignmentRender = React.lazy(() =>
   import("../../components/assignment/TableAssignmentRender")
 );
 
+const HOMEROOM_TEACHER = "HT";
+const SUBJECT_TEACHER = "ST";
+
 const optionAssignment = [
-  { name: "Homeroom teacher", value: "HT" },
-  { name: "Subject teacher", value: "ST" },
+  { name: "Homeroom teacher", value: HOMEROOM_TEACHER },
+  { name: "Subject teacher", value: SUBJECT_TEACHER },
 ];
 
 const buttonData = [
@@ -35,7 +38,7 @@ const Assignment = () => {
   const [searchedData, setSearchedData] = useState(filteredData);
   const [activeFilters, setActiveFilters] = useState([]);
   const [isOpen, setIsOpen] = useState("CLASS");
-  const [option, setOption] = useState("HT");
+  const [option, setOption] = useState(HOMEROOM_TEACHER);
   const [hideButton, setHideButton] = useState(false);
   //   const [dataAssignment, setDataAssignment] = useState([]);
   const [activeAssignment, setActiveAssignment] = useState([]);
@@ -45,14 +48,17 @@ const Assignment = () => {
   });
 
   useEffect(() => {
-    setHideButton(option === "HT" ? false : true);
+    setHideButton(option === HOMEROOM_TEACHER ? false : true);
     setActiveAssignment(
-      option !== "HT"
+      option !== HOMEROOM_TEACHER
         ? (currentState) => currentState
         : (currentState) =>
             currentState.filter((item) => item.name.toLowerCase() !== "subject")
     );
-  }, [option]);
+    if (option === HOMEROOM_TEACHER && isOpen === "SUBJECT") {
+      handleChangeValueButton("CLASS");
+    }
+  }, [option, isOpen]);
 
   useEffect(() => {
     if (isOpen === "CLASS") {
@@ -226,6 +232,7 @@ const Assignment = () => {
             isOpen={isOpen}
             searchedData={searchedData}
             handleChangeAssignmentData={handleChangeAssignmentData}
+            option={option}
           />
         </Stack>
       </Stack>

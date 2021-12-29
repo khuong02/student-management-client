@@ -60,11 +60,12 @@ const Classes = () => {
       classes
         ? classes.map((item) =>
             createData(
-              item.classesCode,
+              item.classCode,
               item.className,
-              "",
+              item.idTeacher ? item.idTeacher : "Not teacher ♥",
+              item.quantity ? item.quantity : 0,
               item.majorCode,
-              item.year,
+              item.year ? item.year : new Date().getFullYear(),
               item.majorCode
             )
           )

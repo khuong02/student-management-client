@@ -8,7 +8,7 @@ import { columnsClass, columnsTeacher, columnsSubject } from "../CreateData";
 import { pageVariants, pageTransition } from "../Animation";
 
 const TableAssignmentRender = (props) => {
-  const { isOpen, searchedData, handleChangeAssignmentData } = props;
+  const { isOpen, searchedData, handleChangeAssignmentData, option } = props;
 
   return (
     <motion.div style={{ width: "50%", height: "100%" }}>
@@ -61,7 +61,9 @@ const TableAssignmentRender = (props) => {
           >
             <TableVirtualized
               data={searchedData}
-              handleChangeAssignmentData={handleChangeAssignmentData}
+              handleChangeAssignmentData={
+                option === "HT" ? null : handleChangeAssignmentData
+              }
               name="subject"
               columns={columnsSubject}
             />

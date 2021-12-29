@@ -42,7 +42,6 @@ function createData(id, name, benchmark, quantity, idMajor) {
 
 const Major = () => {
   const major = fetchData({ funcAction: callApiMajor });
-  console.log(major);
 
   const [data, setData] = useState([]);
 

@@ -114,18 +114,6 @@ export const headCellsSubject = [
     label: "TYPE SUBJECT",
   },
   {
-    id: "numberOfCredits",
-    numeric: false,
-    disablePadding: false,
-    label: "Number Of Credits",
-  },
-  {
-    id: "semester",
-    numeric: false,
-    disablePadding: false,
-    label: "SEMESTER",
-  },
-  {
     id: "views",
     numeric: true,
     disablePadding: false,

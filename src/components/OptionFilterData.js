@@ -19,17 +19,17 @@ export const optionFilterDefault = [
 ];
 
 export const optionFilterSubject = [
-  {
-    name: "Semester",
-    option: [
-      { name: "HK I", value: "I" },
-      { name: "HK II", value: "II" },
-      { name: "HK III", value: "III" },
-      { name: "HK IV", value: "IV" },
-      { name: "HK V", value: "V" },
-      { name: "HK VI", value: "VI" },
-    ],
-  },
+  //   {
+  //     name: "Semester",
+  //     option: [
+  //       { name: "HK I", value: "I" },
+  //       { name: "HK II", value: "II" },
+  //       { name: "HK III", value: "III" },
+  //       { name: "HK IV", value: "IV" },
+  //       { name: "HK V", value: "V" },
+  //       { name: "HK VI", value: "VI" },
+  //     ],
+  //   },
   {
     name: "Major",
     option: [
