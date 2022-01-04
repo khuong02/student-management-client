@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import fetchData from "../../customize/fetchData";
+// import fetchData from "../../customize/fetchData";
 
 import { motion } from "framer-motion";
 
@@ -7,10 +7,11 @@ import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
 import SortTable from "../../components/table/SortTable";
-import FormCreateClass from "../../components/FormCreateClass";
+import FormCreateMajor from "../../components/FormCreateMajor";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { headCellsMajor } from "../headerTableData/headerTableData";
-import { callApiMajor } from "../../features/major/major";
+// import { callApiMajor } from "../../features/major/major";
+import { useSelector } from "react-redux";
 
 function createData(id, name, benchmark, quantity, idMajor) {
   return {
@@ -19,6 +20,7 @@ function createData(id, name, benchmark, quantity, idMajor) {
     benchmark,
     quantity,
     idMajor,
+    uuid: idMajor,
   };
 }
 
@@ -41,7 +43,8 @@ function createData(id, name, benchmark, quantity, idMajor) {
 // ];
 
 const Major = () => {
-  const major = fetchData({ funcAction: callApiMajor });
+  // const major = fetchData({ funcAction: callApiMajor });
+  const { major } = useSelector((state) => state.major);
 
   const [data, setData] = useState([]);
 
@@ -75,10 +78,11 @@ const Major = () => {
           optionFilterData={optionFilterDefault}
           headCells={headCellsMajor}
           rows={data}
-          FormCreate={FormCreateClass}
-          nameButton="Create Class"
-          nameTable="List Classes"
+          FormCreate={FormCreateMajor}
+          nameButton="Create Major"
+          nameTable="List Major"
           optionSearch="name"
+          link="major"
         />
       </Box>
     </motion.div>

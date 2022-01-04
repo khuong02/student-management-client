@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import fetchData from "../../customize/fetchData";
+// import fetchData from "../../customize/fetchData";
+import { useSelector } from "react-redux";
 
 import { motion } from "framer-motion";
 
@@ -10,7 +11,7 @@ import SortTable from "../../components/table/SortTable";
 import FormCreateClass from "../../components/FormCreateClass";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { headCellsClass } from "../headerTableData/headerTableData";
-import { callApiClasses } from "../../features/classes/classes";
+// import { callApiClasses } from "../../features/classes/classes";
 
 function createData(
   id,
@@ -19,7 +20,8 @@ function createData(
   quantityStudent,
   nameMajor,
   year,
-  idMajor
+  idMajor,
+  uuid
 ) {
   return {
     id,
@@ -29,6 +31,7 @@ function createData(
     nameMajor,
     year,
     idMajor,
+    uuid,
   };
 }
 
@@ -51,27 +54,33 @@ function createData(
 // ];
 
 const Classes = () => {
-  const classes = fetchData({ funcAction: callApiClasses });
+  //   const classes = fetchData({ funcAction: callApiClasses });
+  const { classes } = useSelector((state) => state.classes);
+  const { major } = useSelector((state) => state.major);
 
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(
-      classes
-        ? classes.map((item) =>
-            createData(
+      classes && major
+        ? classes.map((item) => {
+            const nameMajor =
+              major.find((obj) => obj.majorCode === item.majorCode).nameMajor ||
+              "";
+            return createData(
               item.classCode,
               item.className,
               item.idTeacher ? item.idTeacher : "Not teacher ♥",
               item.quantity ? item.quantity : 0,
-              item.majorCode,
+              nameMajor,
               item.year ? item.year : new Date().getFullYear(),
-              item.majorCode
-            )
-          )
+              item.majorCode,
+              item.classCode
+            );
+          })
         : []
     );
-  }, [classes]);
+  }, [classes, major]);
 
   return (
     <motion.div
@@ -91,6 +100,7 @@ const Classes = () => {
           nameButton="Create Class"
           nameTable="List Classes"
           optionSearch="name"
+          link="classes"
         />
       </Box>
     </motion.div>

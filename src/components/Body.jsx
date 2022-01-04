@@ -21,8 +21,8 @@ const Body = () => {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/classes" element={<Classes />} />
-          <Route path="/students" element={<Students />} />
-          <Route path="/teachers" element={<Teachers />} />
+          <Route path="/students/*" element={<Students />} />
+          <Route path="/teachers/*" element={<Teachers />} />
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/assignment" element={<Assignment />} />
           <Route path="/major" element={<Major />} />

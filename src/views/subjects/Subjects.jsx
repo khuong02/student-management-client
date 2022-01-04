@@ -19,6 +19,7 @@ function createData(id, name, nameMajor, typeSubject, idMajor) {
     nameMajor,
     typeSubject,
     idMajor,
+    uuid: id,
   };
 }
 
@@ -79,6 +80,7 @@ const Subjects = () => {
           nameButton="Create Subject"
           nameTable="List Subjects"
           optionSearch="id"
+          link="subjects"
         />
       </Box>
     </motion.div>

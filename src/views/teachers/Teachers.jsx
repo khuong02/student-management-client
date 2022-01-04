@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import PropTypes from "prop-types";
-import fetchData from "../../customize/fetchData";
+// import fetchData from "../../customize/fetchData";
+import { useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
 
 import { motion } from "framer-motion";
 
@@ -12,9 +14,10 @@ import FormCreateClass from "../../components/FormCreateClass";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { formatDate } from "../../moment/moment";
 import { headCellsTeacher } from "../headerTableData/headerTableData";
-import { getDataTeacher } from "../../features/assignment/teacher";
+// import { getDataTeacher } from "../../features/assignment/teacher";
+import TeacherProfile from "./TeacherProfile";
 
-function createData(id, name, birthday, nameMajor, year, idMajor) {
+function createData(id, name, birthday, nameMajor, year, idMajor, uuid) {
   return {
     id,
     name,
@@ -22,52 +25,73 @@ function createData(id, name, birthday, nameMajor, year, idMajor) {
     nameMajor,
     year,
     idMajor,
+    uuid,
   };
 }
 
 const Teacher = () => {
-  const teachersList = fetchData({ funcAction: getDataTeacher });
-
+  //   const teachersList = fetchData({ funcAction: getDataTeacher });
+  const { teachersList } = useSelector((state) => state.teacher);
+  const { major } = useSelector((state) => state.major);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(
       teachersList
-        ? teachersList.map((item) =>
-            createData(
+        ? teachersList.map((item) => {
+            const nameMajor =
+              major.find((obj) => obj.majorCode === item.majorCode).nameMajor ||
+              "";
+            return createData(
               item.teacherCode,
               item.name,
               item.birthday,
-              item.majorCode,
+              nameMajor,
               item.year,
-              item.majorCode
-            )
-          )
+              item.majorCode,
+              item.uuid
+            );
+          })
         : []
     );
-  }, [teachersList]);
+  }, [teachersList, major]);
 
   return (
-    <motion.div
-      variants={pageVariants}
-      transition={pageTransition}
-      initial="initial"
-      animate="in"
-      exit="out"
-      style={{ height: "100%" }}
-    >
-      <Box style={{ padding: "0 15px", position: "relative", height: "100%" }}>
-        <SortTable
-          optionFilterData={optionFilterDefault}
-          headCells={headCellsTeacher}
-          rows={data}
-          FormCreate={FormCreateClass}
-          nameButton="Create Student"
-          nameTable="List TEACHERS"
-          optionSearch="id"
-        />
-      </Box>
-    </motion.div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <motion.div
+            variants={pageVariants}
+            transition={pageTransition}
+            initial="initial"
+            animate="in"
+            exit="out"
+            style={{ height: "100%" }}
+          >
+            <Box
+              style={{
+                padding: "0 15px",
+                position: "relative",
+                height: "100%",
+              }}
+            >
+              <SortTable
+                optionFilterData={optionFilterDefault}
+                headCells={headCellsTeacher}
+                rows={data}
+                FormCreate={FormCreateClass}
+                nameButton="Create Student"
+                nameTable="List TEACHERS"
+                optionSearch="id"
+                link="teachers"
+              />
+            </Box>
+          </motion.div>
+        }
+      />
+      <Route path="*" element={<TeacherProfile />} />
+    </Routes>
   );
 };
 

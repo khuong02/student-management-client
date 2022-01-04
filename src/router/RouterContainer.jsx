@@ -9,6 +9,11 @@ import PrivateRouter from "./privateRouter/PrivateRouter";
 import AuthRouter from "./authRouter/AuthRouter";
 import { getInfo } from "../features/user";
 import { logoutSuccess } from "../features/auth";
+import fetchData from "../customize/fetchData";
+import { callApiClasses } from "../features/classes/classes";
+import { callApiMajor } from "../features/major/major";
+import { getDataStudent } from "../features/assignment/student";
+import { getDataTeacher } from "../features/assignment/teacher";
 
 const DefaultLayout = React.lazy(() => import("../layout/DefaultLayout"));
 const Auth = React.lazy(() => import("../auth/Auth"));
@@ -17,6 +22,10 @@ const RouterContainer = () => {
   const auth = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  fetchData({ funcAction: callApiClasses });
+  fetchData({ funcAction: callApiMajor });
+  fetchData({ funcAction: getDataStudent });
+  fetchData({ funcAction: getDataTeacher });
 
   useEffect(() => {
     const getUser = async () => {
@@ -33,8 +42,6 @@ const RouterContainer = () => {
     };
     getUser();
   }, [dispatch, auth, enqueueSnackbar]);
-
-  //   useEffect(() => {}, []);
 
   return (
     <Router>

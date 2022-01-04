@@ -27,6 +27,7 @@ EnhancedTable.propTypes = {
   nameButton: PropTypes.string.isRequired,
   nameTable: PropTypes.string.isRequired,
   optionSearch: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
 };
 
 EnhancedTable.defaultProps = {
@@ -37,6 +38,7 @@ EnhancedTable.defaultProps = {
   nameButton: "",
   nameTable: "",
   optionSearch: "",
+  link: "",
 };
 
 export default function EnhancedTable(props) {
@@ -48,6 +50,7 @@ export default function EnhancedTable(props) {
     nameTable,
     optionSearch,
     optionFilterData,
+    link,
   } = props;
 
   const [order, setOrder] = useState("asc");
@@ -192,7 +195,6 @@ export default function EnhancedTable(props) {
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -259,7 +261,10 @@ export default function EnhancedTable(props) {
                         {row.id}
                       </TableCell>
                       {keys
-                        .filter((key) => key !== "idMajor" && key !== "id")
+                        .filter(
+                          (key) =>
+                            key !== "idMajor" && key !== "id" && key !== "uuid"
+                        )
                         .map((key, index) => {
                           return (
                             <TableCell key={`${key.id}${index}`}>
@@ -268,7 +273,10 @@ export default function EnhancedTable(props) {
                           );
                         })}
                       <TableCell align="right">
-                        <Link className="link-views-classes" to={`/${row.id}`}>
+                        <Link
+                          className="link-views-classes"
+                          to={`/${link}/${row.uuid}`}
+                        >
                           <Visibility />
                         </Link>
                       </TableCell>
