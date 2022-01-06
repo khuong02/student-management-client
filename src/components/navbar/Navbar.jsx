@@ -64,7 +64,7 @@ const Navbar = () => {
       </Box>
       {menuItems(classes).map((item, index) => {
         return (
-          <List key={index} sx={defaultList}>
+          <List key={index} sx={defaultList} style={{ paddingTop: 0 }}>
             <Link to={item.path} className={classes.link}>
               <ListItem
                 button
@@ -80,7 +80,7 @@ const Navbar = () => {
       <List
         sx={defaultList}
         onClick={handleLogout}
-        style={{ color: "#03e9f4" }}
+        style={{ color: "#03e9f4", paddingTop: 0 }}
       >
         <ListItem button>
           <ListItemIcon>

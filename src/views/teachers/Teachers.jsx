@@ -35,11 +35,11 @@ const Teacher = () => {
 
   useEffect(() => {
     setData(
-      teachersList
+      teachersList && major
         ? teachersList.map((item) => {
-            const nameMajor =
-              major.find((obj) => obj.majorCode === item.majorCode).nameMajor ||
-              "";
+            const nameMajor = major.find(
+              (obj) => obj.majorCode === item.majorCode
+            ).nameMajor;
             return createData(
               item.teacherCode,
               item.name,

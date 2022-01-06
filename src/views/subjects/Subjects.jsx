@@ -44,23 +44,27 @@ function createData(id, name, nameMajor, typeSubject, idMajor) {
 const Subjects = () => {
   //   const subjects = fetchData({ funcAction: callApiSubject });
   const { subject } = useSelector((state) => state.subject);
+  const { major } = useSelector((state) => state.major);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(
-      subject.length > 0
-        ? subject.map((item) =>
-            createData(
+      subject && major
+        ? subject.map((item) => {
+            const nameMajor = major.find(
+              (obj) => obj.majorCode === item.majorCode
+            ).nameMajor;
+            return createData(
               item.subjectCode,
               item.nameSubject,
-              item.majorCode,
+              nameMajor,
               item.typeSubject,
               item.majorCode
-            )
-          )
+            );
+          })
         : []
     );
-  }, [subject]);
+  }, [subject, major]);
 
   return (
     <motion.div

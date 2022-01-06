@@ -45,9 +45,9 @@ const Student = () => {
     setData(
       studentsList && major
         ? studentsList.map((item) => {
-            const nameMajor =
-              major.find((obj) => obj.majorCode === item.majorCode).nameMajor ||
-              "";
+            const nameMajor = major.find(
+              (obj) => obj.majorCode === item.majorCode
+            ).nameMajor;
             return createData(
               item.studentCode,
               item.name,

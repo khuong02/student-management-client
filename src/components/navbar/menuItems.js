@@ -1,11 +1,11 @@
 import ClassIcon from "@mui/icons-material/Class";
 import SubjectIcon from "@mui/icons-material/Subject";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-// import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
-// import GroupsIcon from "@mui/icons-material/Groups";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
+import AccessibilityIcon from "@mui/icons-material/Accessibility";
+import GroupsIcon from "@mui/icons-material/Groups";
 
 export const menuItems = (classes) => [
   {
@@ -23,16 +23,16 @@ export const menuItems = (classes) => [
     icon: <SubjectIcon className={classes.icon} />,
     path: "/subjects",
   },
-  //   {
-  //     name: "Students",
-  //     icon: <GroupsIcon className={classes.icon} />,
-  //     path: "/students",
-  //   },
-  //   {
-  //     name: "Teachers",
-  //     icon: <AccessibilityIcon className={classes.icon} />,
-  //     path: "/teachers",
-  //   },
+  {
+    name: "Students",
+    icon: <GroupsIcon className={classes.icon} />,
+    path: "/students",
+  },
+  {
+    name: "Teachers",
+    icon: <AccessibilityIcon className={classes.icon} />,
+    path: "/teachers",
+  },
   {
     name: "Majors",
     icon: <AssuredWorkloadIcon className={classes.icon} />,
