@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import fetchData from "../../customize/fetchData";
+// import fetchData from "../../customize/fetchData";
+import { useSelector } from "react-redux";
 
 import { motion } from "framer-motion";
 
@@ -10,7 +11,6 @@ import SortTable from "../../components/table/SortTable";
 import FormCreateSubject from "../../components/FormCreateSubject";
 import { optionFilterSubject } from "../../components/OptionFilterData";
 import { headCellsSubject } from "../headerTableData/headerTableData";
-import { callApiSubject } from "../../features/subject/subject";
 
 function createData(id, name, nameMajor, typeSubject, idMajor) {
   return {
@@ -42,14 +42,14 @@ function createData(id, name, nameMajor, typeSubject, idMajor) {
 // ];
 
 const Subjects = () => {
-  const subjects = fetchData({ funcAction: callApiSubject });
-
+  //   const subjects = fetchData({ funcAction: callApiSubject });
+  const { subject } = useSelector((state) => state.subject);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(
-      subjects
-        ? subjects.map((item) =>
+      subject.length > 0
+        ? subject.map((item) =>
             createData(
               item.subjectCode,
               item.nameSubject,
@@ -60,7 +60,7 @@ const Subjects = () => {
           )
         : []
     );
-  }, [subjects]);
+  }, [subject]);
 
   return (
     <motion.div
@@ -71,7 +71,13 @@ const Subjects = () => {
       exit="out"
       style={{ height: "100%" }}
     >
-      <Box style={{ padding: "0 15px", position: "relative", height: "100%" }}>
+      <Box
+        style={{
+          padding: "0 15px",
+          position: "relative",
+          height: "100%",
+        }}
+      >
         <SortTable
           optionFilterData={optionFilterSubject}
           headCells={headCellsSubject}

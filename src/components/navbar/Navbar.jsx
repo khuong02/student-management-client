@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -25,6 +25,12 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const classes = useStyle();
   const { pathname } = useLocation();
+  const [path, setPath] = useState("");
+
+  useEffect(() => {
+    if (pathname.split("/").length < 2) setPath(pathname);
+    else setPath(pathname.split("/").slice(0, 2).join("/"));
+  }, [pathname]);
 
   const handleLogout = async () => {
     try {
@@ -62,7 +68,7 @@ const Navbar = () => {
             <Link to={item.path} className={classes.link}>
               <ListItem
                 button
-                className={item.path === pathname ? classes.listItemStyle : ""}
+                className={item.path === path ? classes.listItemStyle : ""}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.name} />

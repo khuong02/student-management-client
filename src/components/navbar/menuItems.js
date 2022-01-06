@@ -34,9 +34,9 @@ export const menuItems = (classes) => [
   //     path: "/teachers",
   //   },
   {
-    name: "Major",
+    name: "Majors",
     icon: <AssuredWorkloadIcon className={classes.icon} />,
-    path: "/major",
+    path: "/majors",
   },
   {
     name: "Assignment",

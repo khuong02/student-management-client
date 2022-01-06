@@ -91,7 +91,13 @@ const Classes = () => {
       exit="out"
       style={{ height: "100%" }}
     >
-      <Box style={{ padding: "0 15px", position: "relative", height: "100%" }}>
+      <Box
+        style={{
+          padding: "0 15px",
+          position: "relative",
+          height: "100%",
+        }}
+      >
         <SortTable
           optionFilterData={optionFilterDefault}
           headCells={headCellsClass}
@@ -104,6 +110,43 @@ const Classes = () => {
         />
       </Box>
     </motion.div>
+    // <Suspense fallback={<Loading />}>
+    //   <Routes>
+    //     <Route
+    //       path="/"
+    //       element={
+    //         <motion.div
+    //           variants={pageVariants}
+    //           transition={pageTransition}
+    //           initial="initial"
+    //           animate="in"
+    //           exit="out"
+    //           style={{ height: "100%" }}
+    //         >
+    //           <Box
+    //             style={{
+    //               padding: "0 15px",
+    //               position: "relative",
+    //               height: "100%",
+    //             }}
+    //           >
+    //             <SortTable
+    //               optionFilterData={optionFilterDefault}
+    //               headCells={headCellsClass}
+    //               rows={data}
+    //               FormCreate={FormCreateClass}
+    //               nameButton="Create Class"
+    //               nameTable="List Classes"
+    //               optionSearch="name"
+    //               link="classes"
+    //             />
+    //           </Box>
+    //         </motion.div>
+    //       }
+    //     />
+    //     <Route path="*" element={<ClassesProfile />} />
+    //   </Routes>
+    // </Suspense>
   );
 };
 

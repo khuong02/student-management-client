@@ -1,6 +1,6 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 // import PropTypes from "prop-types";
-import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { motion } from "framer-motion";
 
@@ -12,9 +12,6 @@ import FormCreateClass from "../../components/FormCreateClass";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { formatDate } from "../../moment/moment";
 import { headCellsStudent } from "../headerTableData/headerTableData";
-import { useSelector } from "react-redux";
-import Loading from "../../layout/Loading";
-const StudentProfile = React.lazy(() => import("./StudentProfile"));
 
 function createData(
   id,
@@ -67,43 +64,33 @@ const Student = () => {
   }, [studentsList, major]);
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <motion.div
-              variants={pageVariants}
-              transition={pageTransition}
-              initial="initial"
-              animate="in"
-              exit="out"
-              style={{ height: "100%" }}
-            >
-              <Box
-                style={{
-                  padding: "0 15px",
-                  position: "relative",
-                  height: "100%",
-                }}
-              >
-                <SortTable
-                  optionFilterData={optionFilterDefault}
-                  headCells={headCellsStudent}
-                  rows={data}
-                  FormCreate={FormCreateClass}
-                  nameButton="Create Student"
-                  nameTable="List Students"
-                  optionSearch="id"
-                  link="students"
-                />
-              </Box>
-            </motion.div>
-          }
+    <motion.div
+      variants={pageVariants}
+      transition={pageTransition}
+      initial="initial"
+      animate="in"
+      exit="out"
+      style={{ height: "100%" }}
+    >
+      <Box
+        style={{
+          padding: "0 15px",
+          position: "relative",
+          height: "100%",
+        }}
+      >
+        <SortTable
+          optionFilterData={optionFilterDefault}
+          headCells={headCellsStudent}
+          rows={data}
+          FormCreate={FormCreateClass}
+          nameButton="Create Student"
+          nameTable="List Students"
+          optionSearch="id"
+          link="students"
         />
-        <Route path="*" element={<StudentProfile />} />
-      </Routes>
-    </Suspense>
+      </Box>
+    </motion.div>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import fetchData from "../../customize/fetchData";
+import { useSelector } from "react-redux";
 
 import { motion } from "framer-motion";
 
@@ -11,7 +12,6 @@ import FormCreateMajor from "../../components/FormCreateMajor";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { headCellsMajor } from "../headerTableData/headerTableData";
 // import { callApiMajor } from "../../features/major/major";
-import { useSelector } from "react-redux";
 
 function createData(id, name, benchmark, quantity, idMajor) {
   return {
@@ -73,7 +73,13 @@ const Major = () => {
       exit="out"
       style={{ height: "100%" }}
     >
-      <Box style={{ padding: "0 15px", position: "relative", height: "100%" }}>
+      <Box
+        style={{
+          padding: "0 15px",
+          position: "relative",
+          height: "100%",
+        }}
+      >
         <SortTable
           optionFilterData={optionFilterDefault}
           headCells={headCellsMajor}
@@ -82,7 +88,7 @@ const Major = () => {
           nameButton="Create Major"
           nameTable="List Major"
           optionSearch="name"
-          link="major"
+          link="majors"
         />
       </Box>
     </motion.div>

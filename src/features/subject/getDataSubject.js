@@ -6,7 +6,6 @@ const getDataSubject = {
       const getData = async () => {
         try {
           const subject = await methodApi.getAll("/api/subjects");
-
           if (!subject || subject.success === false) resolve([]);
 
           resolve(subject.data);

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 // import PropTypes from "prop-types";
 // import fetchData from "../../customize/fetchData";
 import { useSelector } from "react-redux";
-import { Routes, Route } from "react-router-dom";
 
 import { motion } from "framer-motion";
 
@@ -15,7 +14,6 @@ import { optionFilterDefault } from "../../components/OptionFilterData";
 import { formatDate } from "../../moment/moment";
 import { headCellsTeacher } from "../headerTableData/headerTableData";
 // import { getDataTeacher } from "../../features/assignment/teacher";
-import TeacherProfile from "./TeacherProfile";
 
 function createData(id, name, birthday, nameMajor, year, idMajor, uuid) {
   return {
@@ -57,41 +55,33 @@ const Teacher = () => {
   }, [teachersList, major]);
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <motion.div
-            variants={pageVariants}
-            transition={pageTransition}
-            initial="initial"
-            animate="in"
-            exit="out"
-            style={{ height: "100%" }}
-          >
-            <Box
-              style={{
-                padding: "0 15px",
-                position: "relative",
-                height: "100%",
-              }}
-            >
-              <SortTable
-                optionFilterData={optionFilterDefault}
-                headCells={headCellsTeacher}
-                rows={data}
-                FormCreate={FormCreateClass}
-                nameButton="Create Student"
-                nameTable="List TEACHERS"
-                optionSearch="id"
-                link="teachers"
-              />
-            </Box>
-          </motion.div>
-        }
-      />
-      <Route path="*" element={<TeacherProfile />} />
-    </Routes>
+    <motion.div
+      variants={pageVariants}
+      transition={pageTransition}
+      initial="initial"
+      animate="in"
+      exit="out"
+      style={{ height: "100%" }}
+    >
+      <Box
+        style={{
+          padding: "0 15px",
+          position: "relative",
+          height: "100%",
+        }}
+      >
+        <SortTable
+          optionFilterData={optionFilterDefault}
+          headCells={headCellsTeacher}
+          rows={data}
+          FormCreate={FormCreateClass}
+          nameButton="Create Student"
+          nameTable="List TEACHERS"
+          optionSearch="id"
+          link="teachers"
+        />
+      </Box>
+    </motion.div>
   );
 };
 
