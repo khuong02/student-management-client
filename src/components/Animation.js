@@ -24,21 +24,24 @@ export const carAnimation = {
 export const pageVariants = {
   initial: {
     opacity: 0,
-    x: "100%",
+    x: "50%",
+    scale: 0.95,
   },
   in: {
     opacity: 1,
     x: 0,
+    scale: 1,
   },
   out: {
     opacity: 0,
-    x: "50%",
+    x: "20%",
+    scale: 0.95,
   },
 };
 
 export const pageTransition = {
-  type: "tween",
-  duration: 1.2,
+  //   type: "tween",
+  duration: 0.8,
 };
 
 export const Animation = {

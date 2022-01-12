@@ -17,6 +17,7 @@ const EnhancedTableToolbar = (props) => {
     handleSearch,
     nameTable,
     optionFilterData,
+    FormCreate,
   } = props;
 
   return (
@@ -65,7 +66,7 @@ const EnhancedTableToolbar = (props) => {
             optionFilterData={optionFilterData}
             handleFilterChange={handleFilterChange}
             handleSearch={handleSearch}
-            marginRight={"200px"}
+            marginRight={FormCreate !== null ? "200px" : 0}
           />
         </>
       )}

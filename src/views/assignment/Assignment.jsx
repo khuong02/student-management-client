@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
+import { useSnackbar } from "notistack";
+import methodApi from "../../api/methodApi";
 
 import { pageVariants, pageTransition } from "../../components/Animation";
 
 import { Stack } from "@mui/material";
 
-import { rows, teachers, subjects } from "../../components/CreateData";
+import useChangeDataTable from "../../customize/changeDataTable";
 import {
   optionFilterDefault,
   optionFilterSubject,
 } from "../../components/OptionFilterData";
 import OptionAssignment from "../../components/assignment/OptionAssignment";
 import RenderDataChoose from "../../components/assignment/RenderDataChoose";
-
-const TableAssignmentRender = React.lazy(() =>
-  import("../../components/assignment/TableAssignmentRender")
-);
+import BasicTabs from "../../components/basicTab/BasicTabs";
 
 const HOMEROOM_TEACHER = "HT";
 const SUBJECT_TEACHER = "ST";
@@ -26,65 +25,69 @@ const optionAssignment = [
   { name: "Subject teacher", value: SUBJECT_TEACHER },
 ];
 
-const buttonData = [
-  { name: "Class", value: "CLASS" },
-  { name: "Teacher", value: "TEACHER" },
+const semesterData = [
+  { name: "I", value: 1 },
+  { name: "II", value: 2 },
+  { name: "III", value: 3 },
+  { name: "IV", value: 4 },
+  { name: "V", value: 5 },
+  { name: "VI", value: 6 },
 ];
 
 const Assignment = () => {
-  const [optionFilter, setOptionFilter] = useState(optionFilterDefault);
-  const [data, setData] = useState(rows);
-  const [filteredData, setFilteredData] = useState(data);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [isOpen, setIsOpen] = useState(0);
+  const rows = useChangeDataTable({ isOpen });
+
+  const [filteredData, setFilteredData] = useState(rows);
   const [searchedData, setSearchedData] = useState(filteredData);
   const [activeFilters, setActiveFilters] = useState([]);
-  const [isOpen, setIsOpen] = useState("CLASS");
+
   const [option, setOption] = useState(HOMEROOM_TEACHER);
-  const [hideButton, setHideButton] = useState(false);
-  //   const [dataAssignment, setDataAssignment] = useState([]);
+  const [hideButton, setHideButton] = useState(true);
   const [activeAssignment, setActiveAssignment] = useState([]);
   const [optionSearch, setOptionSearch] = useState({
     name: "Search Class Name",
     value: "className",
   });
+  const [optionFilter, setOptionFilter] = useState(optionFilterDefault);
+  const [semester, setSemester] = useState(1);
 
   useEffect(() => {
-    setHideButton(option === HOMEROOM_TEACHER ? false : true);
+    setHideButton(option === HOMEROOM_TEACHER ? true : false);
     setActiveAssignment(
       option !== HOMEROOM_TEACHER
         ? (currentState) => currentState
         : (currentState) =>
             currentState.filter((item) => item.name.toLowerCase() !== "subject")
     );
-    if (option === HOMEROOM_TEACHER && isOpen === "SUBJECT") {
-      handleChangeValueButton("CLASS");
+    if (option === HOMEROOM_TEACHER && isOpen === 2) {
+      setIsOpen(0);
     }
   }, [option, isOpen]);
 
   useEffect(() => {
-    if (isOpen === "CLASS") {
-      setData([...rows]);
+    if (isOpen === 0) {
       setOptionFilter(optionFilterDefault);
       setOptionSearch({ name: "Search Class Name", value: "className" });
     } else {
-      setData(isOpen === "TEACHER" ? teachers : subjects);
       setOptionSearch(
-        isOpen === "TEACHER"
+        isOpen === 1
           ? { name: "Search ID Teacher", value: "id" }
           : { name: "Search ID Subject", value: "id" }
       );
-      setOptionFilter(
-        isOpen === "TEACHER" ? optionFilterDefault : optionFilterSubject
-      );
+      setOptionFilter(isOpen === 1 ? optionFilterDefault : optionFilterSubject);
     }
   }, [isOpen]);
 
   useEffect(() => {
     if (activeFilters.length === 0) {
-      setFilteredData([...data]);
+      setFilteredData([...rows]);
       return;
     }
 
-    let finalData = [...data];
+    let finalData = [...rows];
 
     const yearData = activeFilters.find(
       (element) =>
@@ -124,7 +127,7 @@ const Assignment = () => {
     }
 
     setFilteredData(finalData);
-  }, [activeFilters, data]);
+  }, [activeFilters, rows]);
 
   useEffect(() => {
     setSearchedData(filteredData);
@@ -189,8 +192,57 @@ const Assignment = () => {
     }
   };
 
-  const handleChangeValueButton = (newValue) => {
+  const handleChangeValueButton = (e, newValue) => {
     setIsOpen(newValue);
+  };
+
+  const handleChangeSemester = (e) => {
+    setSemester(e.target.value);
+  };
+
+  const handleSubmitAssignment = async (e) => {
+    e.preventDefault();
+    try {
+      let config;
+      if (option === HOMEROOM_TEACHER) {
+        config = {
+          teacherCode: activeAssignment.find(
+            (obj) => obj.name.toLowerCase() === "teacher"
+          ).value.uuid,
+          classCode: activeAssignment.find(
+            (obj) => obj.name.toLowerCase() === "class"
+          ).value.id,
+          typeAssignment: 0,
+        };
+      } else {
+        config = {
+          teacherCode: activeAssignment.find(
+            (obj) => obj.name.toLowerCase() === "teacher"
+          ).value.uuid,
+          classCode: activeAssignment.find(
+            (obj) => obj.name.toLowerCase() === "class"
+          ).value.id,
+          subjectCode: activeAssignment.find(
+            (obj) => obj.name.toLowerCase() === "subject"
+          ).value.id,
+          semester: +semester,
+          typeAssignment: 1,
+        };
+      }
+
+      const res = await methodApi.post("/api/assignment", config);
+
+      if (res.status === 400) {
+        enqueueSnackbar(res.data.msg, { variant: "error" });
+        return;
+      }
+
+      enqueueSnackbar(res.msg, { variant: "success" });
+      setActiveAssignment([]);
+    } catch (err) {
+      err.response.data.msg &&
+        enqueueSnackbar(err.response.data.msg, { variant: "error" });
+    }
   };
 
   return (
@@ -209,14 +261,11 @@ const Assignment = () => {
         }}
       >
         <OptionAssignment
-          buttonData={buttonData}
           optionFilter={optionFilter}
           handleFilterChange={handleFilterChange}
           handleSearch={handleSearch}
           option={option}
           handleChangeOption={handleChangeOption}
-          handleChangeValueButton={handleChangeValueButton}
-          hideButton={hideButton}
           optionAssignment={optionAssignment}
           nameSearch={optionSearch.name}
         />
@@ -226,13 +275,19 @@ const Assignment = () => {
             height: "100%",
           }}
         >
-          <RenderDataChoose data={activeAssignment} />
-
-          <TableAssignmentRender
-            isOpen={isOpen}
+          <RenderDataChoose
+            data={activeAssignment}
+            semesterData={semesterData}
+            semester={semester}
+            handleChangeSemester={handleChangeSemester}
+            handleSubmitAssignment={handleSubmitAssignment}
+          />
+          <BasicTabs
             searchedData={searchedData}
             handleChangeAssignmentData={handleChangeAssignmentData}
-            option={option}
+            hideButton={hideButton}
+            handleChangeValueButton={handleChangeValueButton}
+            isOpen={isOpen}
           />
         </Stack>
       </Stack>

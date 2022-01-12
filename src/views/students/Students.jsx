@@ -8,7 +8,6 @@ import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
 import SortTable from "../../components/table/SortTable";
-import FormCreateClass from "../../components/FormCreateClass";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { formatDate } from "../../moment/moment";
 import { headCellsStudent } from "../headerTableData/headerTableData";
@@ -83,7 +82,6 @@ const Student = () => {
           optionFilterData={optionFilterDefault}
           headCells={headCellsStudent}
           rows={data}
-          FormCreate={FormCreateClass}
           nameButton="Create Student"
           nameTable="List Students"
           optionSearch="id"

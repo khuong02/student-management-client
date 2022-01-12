@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import Loading from "../layout/Loading";
+import Chart from "../views/chart/Chart";
 
 const Dashboard = React.lazy(() => import("../views/dashboard/Dashboard"));
 const Classes = React.lazy(() => import("../views/classes/Classes"));
@@ -25,6 +26,9 @@ const SubjectProfile = React.lazy(() =>
 const Assignment = React.lazy(() => import("../views/assignment/Assignment"));
 const Major = React.lazy(() => import("../views/major/Major"));
 const MajorProfile = React.lazy(() => import("../views/major/MajorProfile"));
+const UserProfile = React.lazy(() =>
+  import("../views/userProfile/UserProfile")
+);
 
 const Body = () => {
   const location = useLocation();
@@ -40,12 +44,14 @@ const Body = () => {
           <Route path="/students" element={<Students />} />
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/assignment" element={<Assignment />} />
+          <Route path="/chart" element={<Chart />} />
           {/* childPage */}
           <Route path="/classes/:classesId" element={<ClassesProfile />} />
           <Route path="/students/:studentId" element={<StudentProfile />} />
           <Route path="/teachers/:teacherId" element={<TeacherProfile />} />
           <Route path="/subjects/:subjectId" element={<SubjectProfile />} />
           <Route path="/majors/:majorsId" element={<MajorProfile />} />
+          <Route path="/user/:userId" element={<UserProfile />} />
           {/* 404 Page */}
           <Route path="*" element={<div>Not Found</div>} />
         </Routes>

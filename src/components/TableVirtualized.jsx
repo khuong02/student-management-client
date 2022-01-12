@@ -48,18 +48,26 @@ export default function ReactVirtualizedTable(props) {
   const { data, handleChangeAssignmentData, name, columns } = props;
   const componentRef = useRef();
   const width = useContainerDimensions(componentRef);
+  const len = columns.length;
+  const [col, setCol] = useState(null);
+
+  useEffect(() => {
+    setCol(columns.map((obj) => ({ ...obj, width: width / len })));
+  }, [len, width, columns]);
 
   return (
     <Paper style={{ height: "100%", width: "100%" }} ref={componentRef}>
-      <VirtualizedTableComponent
-        rowCount={data.length}
-        rowGetter={({ index }) => data[index]}
-        columns={columns(width / 4)}
-        onRowClick={({ index }) => {
-          if (!handleChangeAssignmentData) return;
-          return handleChangeAssignmentData({ name, value: data[index] });
-        }}
-      />
+      {col && (
+        <VirtualizedTableComponent
+          rowCount={data.length}
+          rowGetter={({ index }) => data[index]}
+          columns={col}
+          onRowClick={({ index }) => {
+            if (!handleChangeAssignmentData) return;
+            return handleChangeAssignmentData({ name, value: data[index] });
+          }}
+        />
+      )}
     </Paper>
   );
 }

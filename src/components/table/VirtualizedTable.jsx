@@ -54,7 +54,7 @@ export default class MuiVirtualizedTable extends React.PureComponent {
           classes.noClick
         )}
         variant="head"
-        style={{ height: headerHeight }}
+        style={{ height: headerHeight, background: "#ddd" }}
         align={columns[columnIndex].numeric || false ? "right" : "left"}
       >
         <span>{label}</span>
@@ -65,6 +65,7 @@ export default class MuiVirtualizedTable extends React.PureComponent {
   render() {
     const { classes, columns, rowHeight, headerHeight, ...tableProps } =
       this.props;
+
     return (
       <AutoSizer>
         {({ height, width }) => (
@@ -92,7 +93,6 @@ export default class MuiVirtualizedTable extends React.PureComponent {
                   }
                   className={classes.flexContainer}
                   cellRenderer={this.cellRenderer}
-                  onClick={() => console.log(1)}
                   dataKey={dataKey}
                   {...other}
                 />

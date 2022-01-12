@@ -22,7 +22,7 @@ const DefaultLayout = () => {
         <Box
           style={{
             height: "calc(100% - 64px)",
-            overflow: "hidden",
+            overflowX: "hidden",
           }}
         >
           <Body />

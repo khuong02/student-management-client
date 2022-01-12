@@ -12,16 +12,47 @@ import {
   TableCell,
   TableRow,
   TableBody,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 const RenderDataChoose = (props) => {
-  const { data } = props;
+  const {
+    data,
+    semester,
+    semesterData,
+    handleChangeSemester,
+    handleSubmitAssignment,
+  } = props;
+
   return (
     <Box style={{ width: "50%", height: "100%" }}>
       <Stack spacing={3} style={{ height: "100%", padding: "2%" }}>
+        <FormControl sx={{ m: 1, minWidth: 220 }}>
+          <InputLabel id="demo-simple-select-helper-label">
+            Choose semester
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={semester}
+            label="Choose semester"
+            onChange={handleChangeSemester}
+          >
+            {semesterData.map((item, index) => {
+              return (
+                <MenuItem key={index} value={item.value}>
+                  {item.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
         {data.map((obj, index) => {
           const keys = Object.keys(obj.value).filter(
-            (key) => key !== "idMajor"
+            (key) => key !== "idMajor" && key !== "uuid"
           );
           return (
             <TableContainer component={Paper} key={index}>
@@ -49,7 +80,11 @@ const RenderDataChoose = (props) => {
         {/* <Paper>123</Paper>
         <Paper>465</Paper>
         <Paper>789</Paper> */}
-        <Button variant="contained" className="button-assignment-submit">
+        <Button
+          variant="contained"
+          className="button-assignment-submit"
+          onClick={handleSubmitAssignment}
+        >
           Assignment
         </Button>
       </Stack>

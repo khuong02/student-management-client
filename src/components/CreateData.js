@@ -26,81 +26,86 @@ const subject = [
   ["5", "Nhap mon lap trinh 5", "TH", "V", "01"],
 ];
 
-const columnsClass = (width) => [
+const columnsClass = [
   {
-    width,
     label: "ID CLASS",
     dataKey: "id",
   },
   {
-    width,
     label: "NAME CLASS",
     dataKey: "className",
     numeric: true,
   },
   {
-    width,
     label: "NAME MAJOR",
     dataKey: "nameMajor",
     numeric: true,
   },
   {
-    width,
     label: "YEAR",
     dataKey: "year",
     numeric: true,
   },
 ];
 
-const columnsTeacher = (width) => [
+const columnsTeacher = [
   {
-    width,
     label: "ID TEACHER",
     dataKey: "id",
   },
   {
-    width,
     label: "NAME TEACHER",
     dataKey: "teacherName",
     numeric: true,
   },
   {
-    width,
     label: "NAME MAJOR",
     dataKey: "nameMajor",
     numeric: true,
   },
   {
-    width,
     label: "YEAR",
     dataKey: "year",
     numeric: true,
   },
 ];
 
-const columnsSubject = (width) => [
+const columnsSubject = [
   {
-    width,
     label: "ID SUBJECT",
     dataKey: "id",
   },
   {
-    width,
     label: "NAME SUBJECT",
     dataKey: "subjectName",
     numeric: true,
   },
   {
-    width,
-    label: "semester",
-    dataKey: "semester",
+    label: "TYPE SUBJECT",
+    dataKey: "typeSubject",
     numeric: true,
   },
   {
-    width,
-    label: "ID MAJOR",
-    dataKey: "idMajor",
+    label: "NAME MAJOR",
+    dataKey: "nameMajor",
     numeric: true,
+  },
+];
+
+const columnStudent = [
+  {
+    label: "ID STUDENT",
+    dataKey: "id",
+  },
+  {
+    label: "NAME STUDENT",
+    dataKey: "studentName",
+    numeric: false,
+  },
+  {
+    label: "BIRTHDAY",
+    dataKey: "birthday",
+    numeric: false,
   },
 ];
 
@@ -114,22 +119,23 @@ function createDataClass(id, className, nameMajor, year, idMajor) {
   };
 }
 
-function createDataTeacher(id, teacherName, nameMajor, year, idMajor) {
+function createDataTeacher(id, teacherName, nameMajor, year, uuid, idMajor) {
   return {
     id,
     teacherName,
     nameMajor,
     year,
+    uuid,
     idMajor,
   };
 }
 
-function createDataSubject(id, subjectName, nameMajor, semester, idMajor) {
+function createDataSubject(id, subjectName, nameMajor, typeSubject, idMajor) {
   return {
     id,
     subjectName,
     nameMajor,
-    semester,
+    typeSubject,
     idMajor,
   };
 }
@@ -156,4 +162,8 @@ module.exports = {
   columnsClass,
   columnsTeacher,
   columnsSubject,
+  columnStudent,
+  createDataClass,
+  createDataTeacher,
+  createDataSubject,
 };

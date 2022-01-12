@@ -13,8 +13,8 @@ const methodApi = {
     return axiosClient.get(url, config);
   },
 
-  getForId: (url) => {
-    return axiosClient.get(url);
+  getForId: (url, id) => {
+    return axiosClient.get(`${url}/${id}`);
   },
 
   post: (url, params) => {

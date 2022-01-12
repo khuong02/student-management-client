@@ -50,7 +50,13 @@ const Navbar = () => {
       classes={{ paper: classes.drawerPaper }}
     >
       <Box className={classes.boxAvatar}>
-        <Link to={`/user/profile/${currentUser.uuid}`} className={classes.link}>
+        <Link to={`/user/${currentUser.uuid}`} className={classes.link}>
+          {/* <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            variant="dot"
+          >
+          </StyledBadge> */}
           <Avatar className={classes.avatar}>K</Avatar>
           <List>
             <ListItem>

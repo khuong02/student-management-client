@@ -211,6 +211,7 @@ export default function EnhancedTable(props) {
           numSelected={selected.length}
           nameTable={nameTable}
           optionFilterData={optionFilterData}
+          FormCreate={FormCreate}
         />
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
@@ -222,11 +223,16 @@ export default function EnhancedTable(props) {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
               headCells={headCells}
+              rows={rows}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-
+              {rows.length === 0 && (
+                <TableRow>
+                  <TableCell>Not allow classes</TableCell>
+                </TableRow>
+              )}
               {stableSort(searchedData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
