@@ -12,9 +12,10 @@ import { logoutSuccess } from "../features/auth";
 import fetchData from "../customize/fetchData";
 import { callApiClasses } from "../features/classes/classes";
 import { callApiMajor } from "../features/major/major";
-import { getDataStudent } from "../features/assignment/student";
-import { getDataTeacher } from "../features/assignment/teacher";
+import { getDataStudent } from "../features/dataListStudentAndTeacher/student";
+import { getDataTeacher } from "../features/dataListStudentAndTeacher/teacher";
 import { callApiSubject } from "../features/subject/subject";
+import { getDataAssignment } from "../features/assignment/assignment";
 
 const DefaultLayout = React.lazy(() => import("../layout/DefaultLayout"));
 const Auth = React.lazy(() => import("../auth/Auth"));
@@ -28,6 +29,7 @@ const RouterContainer = () => {
   fetchData({ funcAction: callApiMajor });
   fetchData({ funcAction: getDataTeacher });
   fetchData({ funcAction: callApiSubject });
+  fetchData({ funcAction: getDataAssignment });
 
   useEffect(() => {
     const getUser = async () => {

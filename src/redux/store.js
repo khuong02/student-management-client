@@ -18,11 +18,12 @@ import storage from "redux-persist/lib/storage";
 import authSlice from "../features/auth";
 import userSlice from "../features/user";
 import noticeSlice from "../features/notice";
-import studentSlice from "../features/assignment/student";
-import teacherSlice from "../features/assignment/teacher";
+import studentSlice from "../features/dataListStudentAndTeacher/student";
+import teacherSlice from "../features/dataListStudentAndTeacher/teacher";
 import classesSlice from "../features/classes/classes";
 import majorSlice from "../features/major/major";
 import subjectSlice from "../features/subject/subject";
+import assignmentSlice from "../features/assignment/assignment";
 
 const persistConfig = {
   key: "root",
@@ -39,6 +40,7 @@ const reducer = combineReducers({
   classes: classesSlice,
   major: majorSlice,
   subject: subjectSlice,
+  assignment: assignmentSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

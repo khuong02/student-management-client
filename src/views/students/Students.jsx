@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
+import Loading from "../../layout/Loading";
+
 import SortTable from "../../components/table/SortTable";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { formatDate } from "../../moment/moment";
@@ -35,24 +37,20 @@ function createData(
 }
 
 const Student = () => {
-  const { studentsList } = useSelector((state) => state.student);
-  const { major } = useSelector((state) => state.major);
+  const { studentsList, loading } = useSelector((state) => state.student);
 
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(
-      studentsList && major
+      studentsList
         ? studentsList.map((item) => {
-            const nameMajor = major.find(
-              (obj) => obj.majorCode === item.majorCode
-            ).nameMajor;
             return createData(
               item.studentCode,
               item.name,
               item.classCode,
               item.birthday,
-              nameMajor,
+              item.nameMajor,
               item.schoolYear,
               item.majorCode,
               item.uuid
@@ -60,7 +58,7 @@ const Student = () => {
           })
         : []
     );
-  }, [studentsList, major]);
+  }, [studentsList]);
 
   return (
     <motion.div
@@ -78,15 +76,19 @@ const Student = () => {
           height: "100%",
         }}
       >
-        <SortTable
-          optionFilterData={optionFilterDefault}
-          headCells={headCellsStudent}
-          rows={data}
-          nameButton="Create Student"
-          nameTable="List Students"
-          optionSearch="id"
-          link="students"
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <SortTable
+            optionFilterData={optionFilterDefault}
+            headCells={headCellsStudent}
+            rows={data}
+            nameButton="Create Student"
+            nameTable="List Students"
+            optionSearch="id"
+            link="students"
+          />
+        )}
       </Box>
     </motion.div>
   );

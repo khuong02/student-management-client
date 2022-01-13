@@ -14,6 +14,7 @@ const BoxAdmissionStudent = (props) => {
           value={point}
           onChange={handleChangeInput}
           required
+          className="input"
         />
         <label>Point</label>
       </div>

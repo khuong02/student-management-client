@@ -9,13 +9,17 @@ import { Box } from "@mui/material";
 
 import SortTable from "../../components/table/SortTable";
 import FormCreateClass from "../../components/FormCreateClass";
+
+import Loading from "../../layout/Loading";
+
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { headCellsClass } from "../headerTableData/headerTableData";
+import { formatYear } from "../../moment/formatYear";
 
 function createData(
   id,
   name,
-  idTeacher,
+  nameTeacher,
   quantityStudent,
   nameMajor,
   year,
@@ -25,10 +29,10 @@ function createData(
   return {
     id,
     name,
-    idTeacher,
+    nameTeacher,
     quantityStudent,
     nameMajor,
-    year,
+    year: formatYear(year),
     idMajor,
     uuid,
   };
@@ -36,24 +40,20 @@ function createData(
 
 const Classes = () => {
   //   const classes = fetchData({ funcAction: callApiClasses });
-  const { classes } = useSelector((state) => state.classes);
-  const { major } = useSelector((state) => state.major);
-
+  const { classes, loading } = useSelector((state) => state.classes);
+  console.log(classes);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(
-      classes && major
+      classes
         ? classes.map((item) => {
-            const nameMajor = major.find(
-              (obj) => obj.majorCode === item.majorCode
-            ).nameMajor;
             return createData(
               item.classCode,
               item.className,
-              item.idTeacher ? item.idTeacher : "Not teacher ♥",
+              item.nameTeacher,
               item.quantity ? item.quantity : 0,
-              nameMajor,
+              item.nameMajor,
               item.year ? item.year : new Date().getFullYear(),
               item.majorCode,
               item.classCode
@@ -61,7 +61,7 @@ const Classes = () => {
           })
         : []
     );
-  }, [classes, major]);
+  }, [classes]);
 
   return (
     <motion.div
@@ -79,16 +79,20 @@ const Classes = () => {
           height: "100%",
         }}
       >
-        <SortTable
-          optionFilterData={optionFilterDefault}
-          headCells={headCellsClass}
-          rows={data}
-          FormCreate={FormCreateClass}
-          nameButton="Create Class"
-          nameTable="List Classes"
-          optionSearch="name"
-          link="classes"
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <SortTable
+            optionFilterData={optionFilterDefault}
+            headCells={headCellsClass}
+            rows={data}
+            FormCreate={FormCreateClass}
+            nameButton="Create Class"
+            nameTable="List Classes"
+            optionSearch="name"
+            link="classes"
+          />
+        )}
       </Box>
     </motion.div>
   );

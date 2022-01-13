@@ -135,10 +135,10 @@ export const headCellsClass = [
     label: "CLASS NAME",
   },
   {
-    id: "idTeacher",
+    id: "nameTeacher",
     numeric: false,
     disablePadding: false,
-    label: "ID TEACHER",
+    label: "NAME TEACHER",
   },
   {
     id: "quantityStudent",

@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
+import Loading from "../../layout/Loading";
+
 import SortTable from "../../components/table/SortTable";
 import FormCreateSubject from "../../components/FormCreateSubject";
 import { optionFilterSubject } from "../../components/OptionFilterData";
@@ -43,28 +45,25 @@ function createData(id, name, nameMajor, typeSubject, idMajor) {
 
 const Subjects = () => {
   //   const subjects = fetchData({ funcAction: callApiSubject });
-  const { subject } = useSelector((state) => state.subject);
-  const { major } = useSelector((state) => state.major);
+  const { subject, loading } = useSelector((state) => state.subject);
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(
-      subject && major
+      subject
         ? subject.map((item) => {
-            const nameMajor = major.find(
-              (obj) => obj.majorCode === item.majorCode
-            ).nameMajor;
             return createData(
               item.subjectCode,
               item.nameSubject,
-              nameMajor,
+              item.nameMajor,
               item.typeSubject,
               item.majorCode
             );
           })
         : []
     );
-  }, [subject, major]);
+  }, [subject]);
 
   return (
     <motion.div
@@ -82,16 +81,20 @@ const Subjects = () => {
           height: "100%",
         }}
       >
-        <SortTable
-          optionFilterData={optionFilterSubject}
-          headCells={headCellsSubject}
-          rows={data}
-          FormCreate={FormCreateSubject}
-          nameButton="Create Subject"
-          nameTable="List Subjects"
-          optionSearch="id"
-          link="subjects"
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <SortTable
+            optionFilterData={optionFilterSubject}
+            headCells={headCellsSubject}
+            rows={data}
+            FormCreate={FormCreateSubject}
+            nameButton="Create Subject"
+            nameTable="List Subjects"
+            optionSearch="id"
+            link="subjects"
+          />
+        )}
       </Box>
     </motion.div>
   );

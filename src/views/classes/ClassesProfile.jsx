@@ -130,7 +130,7 @@ const ClassesProfile = () => {
         classCode: params,
       });
 
-      if (res.status === 400) {
+      if (res.status === 400 || res.status === 500) {
         enqueueSnackbar(res.data.msg, { variant: "error" });
         return;
       }
@@ -200,6 +200,11 @@ const ClassesProfile = () => {
                 }}
               >
                 Homeroom Teacher:
+                <Typography variant="p" style={{ marginLeft: "5px" }}>
+                  {infoClass.nameTeacher
+                    ? infoClass.nameTeacher
+                    : "Not Teacher ♥"}
+                </Typography>
               </Typography>
               <Typography
                 variant="p"

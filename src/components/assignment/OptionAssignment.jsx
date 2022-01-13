@@ -23,7 +23,11 @@ const OptionAssignment = (props) => {
     nameSearch,
   } = props;
   return (
-    <Box style={{ width: "100%", height: "auto" }}>
+    <Box
+      style={{
+        width: "100%",
+      }}
+    >
       <Stack direction="row">
         <Option
           optionFilterData={optionFilter}

@@ -8,9 +8,12 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
+import Loading from "../../layout/Loading";
+
 import SortTable from "../../components/table/SortTable";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { formatDate } from "../../moment/moment";
+import { formatYear } from "../../moment/formatYear";
 import { headCellsTeacher } from "../headerTableData/headerTableData";
 // import { getDataTeacher } from "../../features/assignment/teacher";
 
@@ -28,30 +31,26 @@ function createData(id, name, birthday, nameMajor, year, idMajor, uuid) {
 
 const Teacher = () => {
   //   const teachersList = fetchData({ funcAction: getDataTeacher });
-  const { teachersList } = useSelector((state) => state.teacher);
-  const { major } = useSelector((state) => state.major);
+  const { teachersList, loading } = useSelector((state) => state.teacher);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(
-      teachersList && major
+      teachersList
         ? teachersList.map((item) => {
-            const nameMajor = major.find(
-              (obj) => obj.majorCode === item.majorCode
-            ).nameMajor;
             return createData(
               item.teacherCode,
               item.name,
               item.birthday,
-              nameMajor,
-              item.year,
+              item.nameMajor,
+              formatYear(item.year),
               item.majorCode,
               item.uuid
             );
           })
         : []
     );
-  }, [teachersList, major]);
+  }, [teachersList]);
 
   return (
     <motion.div
@@ -69,15 +68,19 @@ const Teacher = () => {
           height: "100%",
         }}
       >
-        <SortTable
-          optionFilterData={optionFilterDefault}
-          headCells={headCellsTeacher}
-          rows={data}
-          nameButton="Create Student"
-          nameTable="List TEACHERS"
-          optionSearch="id"
-          link="teachers"
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <SortTable
+            optionFilterData={optionFilterDefault}
+            headCells={headCellsTeacher}
+            rows={data}
+            nameButton="Create Student"
+            nameTable="List TEACHERS"
+            optionSearch="id"
+            link="teachers"
+          />
+        )}
       </Box>
     </motion.div>
   );

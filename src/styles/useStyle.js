@@ -82,13 +82,13 @@ export const useStyle = makeStyles((theme) => ({
     // "& div": {
     //   margin: "13px",
     // },
-    textField: {
-      width: "auto",
-      fontSize: 11,
-    },
-    resize: {
-      fontSize: 11,
-    },
+    // textField: {
+    //   width: "auto",
+    //   fontSize: 11,
+    // },
+    // resize: {
+    //   fontSize: 11,
+    // },
   },
 }));
 

@@ -117,7 +117,7 @@ export default function EnhancedTable(props) {
       // Do some filtering for first select/dropdown
       const { value } = yearData;
       // value is the value of your select dropdown that was selected
-      finalData = finalData.filter((x) => x.year === value);
+      finalData = finalData.filter((x) => x.year === `${value}`);
     }
     // Returns undefined if it cannot find the element with .name === 'list' in array, otherwise it will return that element
     const majorData = activeFilters.find(

@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
+import Loading from "../../layout/Loading";
+
 import SortTable from "../../components/table/SortTable";
 import FormCreateMajor from "../../components/FormCreateMajor";
 import { optionFilterDefault } from "../../components/OptionFilterData";
@@ -44,7 +46,7 @@ function createData(id, name, benchmark, quantity, idMajor) {
 
 const Major = () => {
   // const major = fetchData({ funcAction: callApiMajor });
-  const { major } = useSelector((state) => state.major);
+  const { major, loading } = useSelector((state) => state.major);
 
   const [data, setData] = useState([]);
 
@@ -80,16 +82,20 @@ const Major = () => {
           height: "100%",
         }}
       >
-        <SortTable
-          optionFilterData={optionFilterDefault}
-          headCells={headCellsMajor}
-          rows={data}
-          FormCreate={FormCreateMajor}
-          nameButton="Create Major"
-          nameTable="List Major"
-          optionSearch="name"
-          link="majors"
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <SortTable
+            optionFilterData={optionFilterDefault}
+            headCells={headCellsMajor}
+            rows={data}
+            FormCreate={FormCreateMajor}
+            nameButton="Create Major"
+            nameTable="List Major"
+            optionSearch="name"
+            link="majors"
+          />
+        )}
       </Box>
     </motion.div>
   );

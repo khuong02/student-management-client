@@ -81,24 +81,28 @@ const Admission = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (name.trim() === "") {
-        dispatch(noticeFailed("Please enter your name!"));
-        enqueueSnackbar(notice.error, { variant: "error" });
-        return;
-      }
+      if (check) {
+        if (name.trim() === "") {
+          dispatch(noticeFailed("Please enter your name!"));
+          enqueueSnackbar(notice.error, { variant: "error" });
+          return;
+        }
 
-      if (point.trim() === "") {
-        dispatch(noticeFailed("Please enter your point!"));
-        enqueueSnackbar(notice.error, { variant: "error" });
-        return;
+        if (point.trim() === "") {
+          dispatch(noticeFailed("Please enter your point!"));
+          enqueueSnackbar(notice.error, { variant: "error" });
+          return;
+        }
       }
 
       const res = await methodApi.post(
         `/api/admission/${check ? "student" : "teacher"}`,
         check ? optionSubmitStudent : optionSubmitTeacher
       );
+
       setAdmission(initialAdmission);
       dispatch(noticeSuccess(res.msg));
+      enqueueSnackbar(notice.success, { variant: "success" });
     } catch (err) {
       err && dispatch(noticeFailed(err.msg));
     }
@@ -127,6 +131,7 @@ const Admission = () => {
                 value={email}
                 onChange={handleChangeInput}
                 required
+                className="input"
               />
               <label>Email</label>
             </div>
@@ -137,6 +142,7 @@ const Admission = () => {
                 value={name}
                 onChange={handleChangeInput}
                 required
+                className="input"
               />
               <label>Name</label>
             </div>
@@ -157,6 +163,7 @@ const Admission = () => {
                 value={birthday}
                 onChange={handleChangeInput}
                 required
+                className="input"
               />
             </div>
             <button type="submit">

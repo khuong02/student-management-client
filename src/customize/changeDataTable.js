@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 
+import { formatYear } from "../moment/formatYear";
+
 import {
   createDataClass,
   createDataTeacher,
@@ -11,26 +13,22 @@ import {
 const useChangeDataTable = ({ isOpen }) => {
   const [data, setData] = useState([]);
   const { classes } = useSelector((state) => state.classes);
-  const { major } = useSelector((state) => state.major);
   const { teachersList } = useSelector((state) => state.teacher);
   const { subject } = useSelector((state) => state.subject);
+  //   const { assignmentList } = useSelector((state) => state.assignment);
 
   useEffect(() => {
-    if (!major) return;
     switch (isOpen) {
       case 0:
         return (
           classes &&
           setData([
             ...classes.map((item) => {
-              const nameMajor = major.find(
-                (obj) => obj.majorCode === item.majorCode
-              ).nameMajor;
               return createDataClass(
                 item.classCode,
                 item.className,
-                nameMajor,
-                item.year ? item.year : new Date().getFullYear(),
+                item.nameMajor,
+                item.year ? formatYear(item.year) : new Date().getFullYear(),
                 item.majorCode
               );
             }),
@@ -41,14 +39,11 @@ const useChangeDataTable = ({ isOpen }) => {
           teachersList &&
           setData([
             ...teachersList.map((item) => {
-              const nameMajor = major.find(
-                (obj) => obj.majorCode === item.majorCode
-              ).nameMajor;
               return createDataTeacher(
                 item.teacherCode,
                 item.name,
-                nameMajor,
-                item.year,
+                item.nameMajor,
+                formatYear(item.year),
                 item.uuid,
                 item.majorCode
               );
@@ -60,13 +55,10 @@ const useChangeDataTable = ({ isOpen }) => {
           subject &&
           setData([
             ...subject.map((item) => {
-              const nameMajor = major.find(
-                (obj) => obj.majorCode === item.majorCode
-              ).nameMajor;
               return createDataSubject(
                 item.subjectCode,
                 item.nameSubject,
-                nameMajor,
+                item.nameMajor,
                 item.typeSubject,
                 item.majorCode
               );
@@ -77,7 +69,7 @@ const useChangeDataTable = ({ isOpen }) => {
       default:
         return setData([]);
     }
-  }, [isOpen, classes, major, teachersList, subject]);
+  }, [isOpen, classes, teachersList, subject]);
 
   return data;
 };
