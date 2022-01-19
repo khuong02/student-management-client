@@ -65,7 +65,7 @@ const FormCreateMajor = ({ toggle }) => {
         return;
       }
 
-      window.location.href = "/major";
+      window.location.href = "/majors";
     } catch (err) {
       console.log(err);
       enqueueSnackbar(err.message, { variant: "error" });
