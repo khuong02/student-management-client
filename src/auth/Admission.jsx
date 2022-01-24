@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import { pageVariants, pageTransition } from "../components/Animation";
-import { noticeSuccess, noticeFailed } from "../features/notice";
+// import { noticeSuccess, noticeFailed } from "../features/notice";
 import methodApi from "../api/methodApi";
 import BoxAdmissionStudent from "../components/admission/BoxAdmissionStudent";
 import BoxAdmissionTeacher from "../components/admission/BoxAdmissionTeacher";
@@ -21,8 +21,8 @@ const initialAdmission = {
 };
 
 const Admission = () => {
-  const { notice } = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const { notice } = useSelector((state) => state);
+  // const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const [check, setCheck] = useState(true);
@@ -83,14 +83,12 @@ const Admission = () => {
     try {
       if (check) {
         if (name.trim() === "") {
-          dispatch(noticeFailed("Please enter your name!"));
-          enqueueSnackbar(notice.error, { variant: "error" });
+          enqueueSnackbar("Please enter your name!", { variant: "error" });
           return;
         }
 
         if (point.trim() === "") {
-          dispatch(noticeFailed("Please enter your point!"));
-          enqueueSnackbar(notice.error, { variant: "error" });
+          enqueueSnackbar("Please enter your point!", { variant: "error" });
           return;
         }
       }
@@ -100,11 +98,15 @@ const Admission = () => {
         check ? optionSubmitStudent : optionSubmitTeacher
       );
 
+      if (res.status === 400 || res.status === 500) {
+        enqueueSnackbar(res.data.msg, { variant: "error" });
+      }
+
       setAdmission(initialAdmission);
-      dispatch(noticeSuccess(res.msg));
-      enqueueSnackbar(notice.success, { variant: "success" });
+      enqueueSnackbar(res.msg, { variant: "success" });
     } catch (err) {
-      err && dispatch(noticeFailed(err.msg));
+      err.response &&
+        enqueueSnackbar(err.response.data.msg, { variant: "error" });
     }
   };
 

@@ -25,7 +25,7 @@ export const pageVariants = {
   initial: {
     opacity: 0,
     x: "50%",
-    scale: 0.95,
+    // scale: 0.95,
   },
   in: {
     opacity: 1,
@@ -35,12 +35,12 @@ export const pageVariants = {
   out: {
     opacity: 0,
     x: "20%",
-    scale: 0.95,
+    // scale: 0.95,
   },
 };
 
 export const pageTransition = {
-  //   type: "tween",
+  // type: "tween",
   duration: 0.8,
 };
 

@@ -47,7 +47,7 @@ const FormAddStudent = (props) => {
                 }}
                 //   InputProps={{ endAdornment: <SearchIcon /> }}
                 value={studentCode}
-                sx={{ m: 1, minWidth: 180, margin: 0 }}
+                sx={{ m: 1, maxWidth: 200, margin: 0 }}
               />
               <Button
                 variant="contained"

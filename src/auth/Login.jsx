@@ -51,6 +51,8 @@ const Login = () => {
         password,
       });
 
+      console.log(res)
+      
       if (res.status === 400) {
         dispatch(loginFailed(true));
         enqueueSnackbar(res.data.msg, { variant: "error" });
@@ -66,10 +68,10 @@ const Login = () => {
       unwrapResult(actionResult);
       //   const currentResult = ;
     } catch (err) {
-      console.log(err);
-      if (err) {
+      console.log(err.response);
+      if (err.response) {
         dispatch(loginFailed(true));
-        enqueueSnackbar(err.data.msg, { variant: "error" });
+        enqueueSnackbar(err.response.data.msg, { variant: "error" });
         setLogin({ ...login, account: "", password: "" });
       }
     }
