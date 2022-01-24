@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 // import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import { motion } from "framer-motion";
-
-import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
 import Loading from "../../layout/Loading";
@@ -13,6 +10,7 @@ import SortTable from "../../components/table/SortTable";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { formatDate } from "../../moment/moment";
 import { headCellsStudent } from "../headerTableData/headerTableData";
+import AnimationChangePage from "../../layout/AnimationChangePage";
 
 function createData(
   id,
@@ -37,7 +35,7 @@ function createData(
 }
 
 const Student = () => {
-  const { studentsList, loading } = useSelector((state) => state.student);
+  const { studentsList, loading } = useSelector((state) => state.students);
 
   const [data, setData] = useState([]);
 
@@ -61,14 +59,7 @@ const Student = () => {
   }, [studentsList]);
 
   return (
-    <motion.div
-      variants={pageVariants}
-      transition={pageTransition}
-      initial="initial"
-      animate="in"
-      exit="out"
-      style={{ height: "100%" }}
-    >
+    <AnimationChangePage>
       <Box
         style={{
           padding: "0 15px",
@@ -90,7 +81,7 @@ const Student = () => {
           />
         )}
       </Box>
-    </motion.div>
+    </AnimationChangePage>
   );
 };
 

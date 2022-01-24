@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 // import fetchData from "../../customize/fetchData";
 import { useSelector } from "react-redux";
 
-import { motion } from "framer-motion";
-
-import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
 import Loading from "../../layout/Loading";
@@ -15,7 +12,7 @@ import { optionFilterDefault } from "../../components/OptionFilterData";
 import { formatDate } from "../../moment/moment";
 import { formatYear } from "../../moment/formatYear";
 import { headCellsTeacher } from "../headerTableData/headerTableData";
-// import { getDataTeacher } from "../../features/assignment/teacher";
+import AnimationChangePage from "../../layout/AnimationChangePage";
 
 function createData(id, name, birthday, nameMajor, year, idMajor, uuid) {
   return {
@@ -30,8 +27,7 @@ function createData(id, name, birthday, nameMajor, year, idMajor, uuid) {
 }
 
 const Teacher = () => {
-  //   const teachersList = fetchData({ funcAction: getDataTeacher });
-  const { teachersList, loading } = useSelector((state) => state.teacher);
+  const { teachersList, loading } = useSelector((state) => state.teachers);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -53,14 +49,7 @@ const Teacher = () => {
   }, [teachersList]);
 
   return (
-    <motion.div
-      variants={pageVariants}
-      transition={pageTransition}
-      initial="initial"
-      animate="in"
-      exit="out"
-      style={{ height: "100%" }}
-    >
+    <AnimationChangePage>
       <Box
         style={{
           padding: "0 15px",
@@ -82,7 +71,7 @@ const Teacher = () => {
           />
         )}
       </Box>
-    </motion.div>
+    </AnimationChangePage>
   );
 };
 

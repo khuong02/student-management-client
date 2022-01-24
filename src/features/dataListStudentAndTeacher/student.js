@@ -26,6 +26,16 @@ const student = createSlice({
       state.loading = false;
       state.studentsList = action.payload;
     },
+    updateStudent(state, action) {
+      state.loading = false;
+      const index = state.studentsList.findIndex(
+        (obj) => obj.uuid === action.payload.uuid
+      );
+      state.studentsList[index] = {
+        ...state.studentsList[index],
+        ...action.payload,
+      };
+    },
   },
   extraReducers: {
     [getDataStudent.pending]: (state) => {
@@ -42,5 +52,6 @@ const student = createSlice({
   },
 });
 
-export const { getDataPending, setStudentsList } = student.actions;
+export const { getDataPending, setStudentsList, updateStudent } =
+  student.actions;
 export default student.reducer;

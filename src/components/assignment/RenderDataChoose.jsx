@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -26,6 +26,15 @@ const RenderDataChoose = (props) => {
     handleChangeSemester,
     handleSubmitAssignment,
   } = props;
+
+  const [disabledButton, setDisabledButton] = useState(true);
+
+  useEffect(() => {
+    const isClass = data.find((obj) => obj.name === "class");
+    const isTeacher = data.find((obj) => obj.name === "teacher");
+
+    setDisabledButton(isClass && isTeacher ? false : true);
+  }, [data]);
 
   return (
     <Box style={{ width: "50%", height: "100%" }}>
@@ -84,6 +93,7 @@ const RenderDataChoose = (props) => {
           variant="contained"
           className="button-assignment-submit"
           onClick={handleSubmitAssignment}
+          disabled={disabledButton}
         >
           Assignment
         </Button>

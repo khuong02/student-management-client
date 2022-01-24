@@ -26,6 +26,16 @@ const teacher = createSlice({
       state.loading = false;
       state.teachersList = action.payload;
     },
+    updateTeacher(state, action) {
+      state.loading = false;
+      const index = state.teachersList.findIndex(
+        (obj) => obj.uuid === action.payload.uuid
+      );
+      state.teachersList[index] = {
+        ...state.teachersList[index],
+        ...action.payload,
+      };
+    },
   },
   extraReducers: {
     [getDataTeacher.pending]: (state) => {
@@ -42,5 +52,6 @@ const teacher = createSlice({
   },
 });
 
-export const { teachersListPending, setTeachersList } = teacher.actions;
+export const { teachersListPending, setTeachersList, updateTeacher } =
+  teacher.actions;
 export default teacher.reducer;

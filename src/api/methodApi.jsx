@@ -24,6 +24,9 @@ const methodApi = {
   delete: (url, id) => {
     return axiosClient.delete(`${url}/${id}`);
   },
+  update: (url, optionUpdate) => {
+    return axiosClient.patch(`${url}`, optionUpdate);
+  },
 };
 
 export default methodApi;

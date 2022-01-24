@@ -13,8 +13,8 @@ import {
 const useChangeDataTable = ({ isOpen }) => {
   const [data, setData] = useState([]);
   const { classes } = useSelector((state) => state.classes);
-  const { teachersList } = useSelector((state) => state.teacher);
-  const { subject } = useSelector((state) => state.subject);
+  const { teachersList } = useSelector((state) => state.teachers);
+  const { subjects } = useSelector((state) => state.subjects);
   //   const { assignmentList } = useSelector((state) => state.assignment);
 
   useEffect(() => {
@@ -35,41 +35,35 @@ const useChangeDataTable = ({ isOpen }) => {
           ])
         );
       case 1:
-        return (
-          teachersList &&
-          setData([
-            ...teachersList.map((item) => {
-              return createDataTeacher(
-                item.teacherCode,
-                item.name,
-                item.nameMajor,
-                formatYear(item.year),
-                item.uuid,
-                item.majorCode
-              );
-            }),
-          ])
-        );
+        return setData([
+          ...teachersList?.map((item) => {
+            return createDataTeacher(
+              item.teacherCode,
+              item.name,
+              item.nameMajor,
+              formatYear(item.year),
+              item.uuid,
+              item.majorCode
+            );
+          }),
+        ]);
       case 2:
-        return (
-          subject &&
-          setData([
-            ...subject.map((item) => {
-              return createDataSubject(
-                item.subjectCode,
-                item.nameSubject,
-                item.nameMajor,
-                item.typeSubject,
-                item.majorCode
-              );
-            }),
-          ])
-        );
+        return setData([
+          ...subjects?.map((item) => {
+            return createDataSubject(
+              item.subjectCode,
+              item.nameSubject,
+              item.nameMajor,
+              item.typeSubject,
+              item.majorCode
+            );
+          }),
+        ]);
 
       default:
         return setData([]);
     }
-  }, [isOpen, classes, teachersList, subject]);
+  }, [isOpen, classes, teachersList, subjects]);
 
   return data;
 };

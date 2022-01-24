@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 // import fetchData from "../../customize/fetchData";
 import { useSelector } from "react-redux";
 
-import { motion } from "framer-motion";
-
-import { pageVariants, pageTransition } from "../../components/Animation";
 import { Box } from "@mui/material";
 
 import SortTable from "../../components/table/SortTable";
@@ -15,6 +12,7 @@ import Loading from "../../layout/Loading";
 import { optionFilterDefault } from "../../components/OptionFilterData";
 import { headCellsClass } from "../headerTableData/headerTableData";
 import { formatYear } from "../../moment/formatYear";
+import AnimationChangePage from "../../layout/AnimationChangePage";
 
 function createData(
   id,
@@ -41,7 +39,6 @@ function createData(
 const Classes = () => {
   //   const classes = fetchData({ funcAction: callApiClasses });
   const { classes, loading } = useSelector((state) => state.classes);
-  console.log(classes);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -64,14 +61,7 @@ const Classes = () => {
   }, [classes]);
 
   return (
-    <motion.div
-      variants={pageVariants}
-      transition={pageTransition}
-      initial="initial"
-      animate="in"
-      exit="out"
-      style={{ height: "100%" }}
-    >
+    <AnimationChangePage>
       <Box
         style={{
           padding: "0 15px",
@@ -94,7 +84,7 @@ const Classes = () => {
           />
         )}
       </Box>
-    </motion.div>
+    </AnimationChangePage>
   );
 };
 
