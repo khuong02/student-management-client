@@ -16,6 +16,7 @@ import TableVirtualized from "../../components/TableVirtualized";
 import { columnStudent } from "../../components/CreateData";
 import { formatDate } from "../../moment/moment";
 import FormAddStudent from "../../components/classes/FormAddStudent";
+import AnimationChangePage from "../../layout/AnimationChangePage";
 
 const initialStateClass = {
   infoClass: {},
@@ -34,7 +35,7 @@ const formatData = (id, studentName = "", birthday = "") => ({
 });
 
 const ClassesProfile = () => {
-  const { studentsList } = useSelector((state) => state.student);
+  const { studentsList } = useSelector((state) => state.students);
   const { enqueueSnackbar } = useSnackbar();
   const params = useParams()["classesId"];
 
@@ -154,86 +155,88 @@ const ClassesProfile = () => {
   };
 
   return (
-    <Stack style={{ height: "100%", position: "relative" }}>
-      <AnimatePresence exitBeforeEnter initial={false}>
-        {open && (
-          <FormAddStudent
-            hiddenForm={hiddenForm}
-            handleChangeInput={handleChangeInput}
-            addStudentToClass={addStudentToClass}
-            submitSearch={submitSearch}
-            studentCode={studentCode}
-            listStudentCode={listStudentCode}
-            cancelStudentCodeHasChoose={cancelStudentCodeHasChoose}
-          />
-        )}
-      </AnimatePresence>
-      <Box style={{ height: "30%" }}>
-        {err && <h3>{err}</h3>}
-        <Card
-          style={{
-            margin: "1%",
-            height: "80%",
-            background: "linear-gradient(120deg, #f6d365 0%, #fda085 100%)",
-            boxShadow: "none",
-            padding: "0 1%",
-          }}
-        >
-          <Stack direction="row" justifyContent="space-between">
-            <Box>
-              <Typography
-                variant="h2"
-                style={{
-                  color: "#fff",
-                  fontWeight: "400",
-                  letterSpacing: "1.1px",
-                }}
-              >
-                {infoClass.className}
-              </Typography>
-              <Typography
-                variant="h6"
-                style={{
-                  color: "#fff",
-                  fontWeight: "400",
-                  letterSpacing: "1.1px",
-                }}
-              >
-                Homeroom Teacher:
-                <Typography variant="p" style={{ marginLeft: "5px" }}>
-                  {infoClass.nameTeacher
-                    ? infoClass.nameTeacher
-                    : "Not Teacher ♥"}
+    <AnimationChangePage>
+      <Stack style={{ height: "100%", position: "relative" }}>
+        <AnimatePresence exitBeforeEnter initial={false}>
+          {open && (
+            <FormAddStudent
+              hiddenForm={hiddenForm}
+              handleChangeInput={handleChangeInput}
+              addStudentToClass={addStudentToClass}
+              submitSearch={submitSearch}
+              studentCode={studentCode}
+              listStudentCode={listStudentCode}
+              cancelStudentCodeHasChoose={cancelStudentCodeHasChoose}
+            />
+          )}
+        </AnimatePresence>
+        <Box style={{ height: "30%" }}>
+          {err && <h3>{err}</h3>}
+          <Card
+            style={{
+              margin: "1%",
+              height: "80%",
+              background: "linear-gradient(120deg, #f6d365 0%, #fda085 100%)",
+              boxShadow: "none",
+              padding: "0 1%",
+            }}
+          >
+            <Stack direction="row" justifyContent="space-between">
+              <Box>
+                <Typography
+                  variant="h2"
+                  style={{
+                    color: "#fff",
+                    fontWeight: "400",
+                    letterSpacing: "1.1px",
+                  }}
+                >
+                  {infoClass.className}
                 </Typography>
-              </Typography>
-              <Typography
-                variant="p"
-                style={{
-                  color: "#fff",
-                  fontWeight: "300",
-                  letterSpacing: "1.1px",
-                }}
-              >
-                Quantity: {infoClass.quantity}
-              </Typography>
-            </Box>
-            <Box>
-              <Tooltip title="Add student">
-                <IconButton onClick={hiddenForm}>
-                  <PersonAddIcon style={{ width: "40px", height: "40px" }} />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Stack>
-        </Card>
-      </Box>
-      <Box style={{ height: "70%" }}>
-        <TableVirtualized
-          data={studentInClass.err ? [{ id: studentInClass.err }] : students}
-          columns={columnStudent}
-        />
-      </Box>
-    </Stack>
+                <Typography
+                  variant="h6"
+                  style={{
+                    color: "#fff",
+                    fontWeight: "400",
+                    letterSpacing: "1.1px",
+                  }}
+                >
+                  Homeroom Teacher:
+                  <Typography variant="p" style={{ marginLeft: "5px" }}>
+                    {infoClass.nameTeacher
+                      ? infoClass.nameTeacher
+                      : "Not Teacher ♥"}
+                  </Typography>
+                </Typography>
+                <Typography
+                  variant="p"
+                  style={{
+                    color: "#fff",
+                    fontWeight: "300",
+                    letterSpacing: "1.1px",
+                  }}
+                >
+                  Quantity: {infoClass.quantity}
+                </Typography>
+              </Box>
+              <Box>
+                <Tooltip title="Add student">
+                  <IconButton onClick={hiddenForm}>
+                    <PersonAddIcon style={{ width: "40px", height: "40px" }} />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Stack>
+          </Card>
+        </Box>
+        <Box style={{ height: "70%" }}>
+          <TableVirtualized
+            data={studentInClass.err ? [{ id: studentInClass.err }] : students}
+            columns={columnStudent}
+          />
+        </Box>
+      </Stack>
+    </AnimationChangePage>
   );
 };
 

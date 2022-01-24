@@ -10,7 +10,7 @@ export const callApiMajor = createAsyncThunk(
 );
 
 const initialState = {
-  major: [],
+  majors: [],
   loading: false,
 };
 
@@ -23,7 +23,14 @@ const major = createSlice({
     },
     setMajor(state, action) {
       state.loading = false;
-      state.major = action.payload;
+      state.majors = action.payload;
+    },
+    updateMajor(state, action) {
+      state.loading = false;
+      const index = state.majors.findIndex(
+        (obj) => obj.majorCode === action.payload.majorCode
+      );
+      state.majors[index] = { ...state.majors[index], ...action.payload };
     },
   },
   extraReducers: {
@@ -32,14 +39,14 @@ const major = createSlice({
     },
     [callApiMajor.rejected]: (state, action) => {
       state.loading = false;
-      state.major = action.payload;
+      state.majors = action.payload;
     },
     [callApiMajor.fulfilled]: (state, action) => {
       state.loading = false;
-      state.major = action.payload;
+      state.majors = action.payload;
     },
   },
 });
 
-export const { majorPending, setMajor } = major.actions;
+export const { majorPending, setMajor, updateMajor } = major.actions;
 export default major.reducer;

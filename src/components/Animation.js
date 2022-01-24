@@ -41,7 +41,7 @@ export const pageVariants = {
 
 export const pageTransition = {
   // type: "tween",
-  duration: 0.8,
+  duration: 0.5,
 };
 
 export const Animation = {

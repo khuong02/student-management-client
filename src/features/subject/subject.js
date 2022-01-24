@@ -10,7 +10,7 @@ export const callApiSubject = createAsyncThunk(
 );
 
 const initialState = {
-  subject: [],
+  subjects: [],
   loading: false,
 };
 
@@ -23,7 +23,14 @@ const subject = createSlice({
     },
     setSubject(state, action) {
       state.loading = false;
-      state.subject = action.payload;
+      state.subjects = action.payload;
+    },
+    updateSubject(state, action) {
+      state.loading = false;
+      const index = state.subjects.findIndex(
+        (obj) => obj.subjectCode === action.payload.subjectCode
+      );
+      state.subjects[index] = { ...state.subjects[index], ...action.payload };
     },
   },
   extraReducers: {
@@ -32,14 +39,14 @@ const subject = createSlice({
     },
     [callApiSubject.rejected]: (state, action) => {
       state.loading = false;
-      state.subject = action.payload;
+      state.subjects = action.payload;
     },
     [callApiSubject.fulfilled]: (state, action) => {
       state.loading = false;
-      state.subject = action.payload;
+      state.subjects = action.payload;
     },
   },
 });
 
-export const { subjectPending, setSubject } = subject.actions;
+export const { subjectPending, setSubject, updateSubject } = subject.actions;
 export default subject.reducer;

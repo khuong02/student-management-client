@@ -35,11 +35,11 @@ const reducer = combineReducers({
   auth: authSlice,
   user: userSlice,
   notice: noticeSlice,
-  student: studentSlice,
-  teacher: teacherSlice,
+  students: studentSlice,
+  teachers: teacherSlice,
   classes: classesSlice,
-  major: majorSlice,
-  subject: subjectSlice,
+  majors: majorSlice,
+  subjects: subjectSlice,
   assignment: assignmentSlice,
 });
 

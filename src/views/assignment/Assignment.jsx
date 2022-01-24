@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { motion } from "framer-motion";
 import { useSnackbar } from "notistack";
 import methodApi from "../../api/methodApi";
-
-import { pageVariants, pageTransition } from "../../components/Animation";
 
 import { Stack } from "@mui/material";
 
@@ -16,6 +13,7 @@ import {
 import OptionAssignment from "../../components/assignment/OptionAssignment";
 import RenderDataChoose from "../../components/assignment/RenderDataChoose";
 import BasicTabs from "../../components/basicTab/BasicTabs";
+import AnimationChangePage from "../../layout/AnimationChangePage";
 
 const HOMEROOM_TEACHER = "HT";
 const SUBJECT_TEACHER = "ST";
@@ -246,14 +244,7 @@ const Assignment = () => {
   };
 
   return (
-    <motion.div
-      variants={pageVariants}
-      transition={pageTransition}
-      initial="initial"
-      animate="in"
-      exit="out"
-      style={{ height: "100%" }}
-    >
+    <AnimationChangePage>
       <Stack
         // direction="row"
         style={{
@@ -291,7 +282,7 @@ const Assignment = () => {
           />
         </Stack>
       </Stack>
-    </motion.div>
+    </AnimationChangePage>
   );
 };
 
