@@ -28,8 +28,10 @@ const Navbar = () => {
   const [path, setPath] = useState("");
 
   useEffect(() => {
-    if (pathname.split("/").length < 2) setPath(pathname);
-    else setPath(pathname.split("/").slice(0, 2).join("/"));
+    const len = pathname.split("/").length;
+
+    if (len < 2) setPath(pathname);
+    else setPath(pathname.split("/").slice(0, len).join("/"));
   }, [pathname]);
 
   const handleLogout = async () => {

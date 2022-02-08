@@ -99,7 +99,7 @@ const StudentProfile = () => {
               <Card sx={{ padding: 3, flexWrap: "wrap" }} variant="outlined">
                 <TextField
                   id="outlined-basic"
-                  label="Teacher Code"
+                  label="Student Code"
                   variant="outlined"
                   sx={{ width: "46.5%", margin: 3 }}
                   defaultValue={studentCode}

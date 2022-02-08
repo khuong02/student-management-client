@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 
@@ -17,6 +17,7 @@ const initialAdmission = {
   email: "",
   point: "",
   birthday: "",
+  gender: "01",
   aspirations_arr: [],
 };
 
@@ -31,22 +32,48 @@ const Admission = () => {
   const [aspirationsStudent, setAspirationsStudent] = useState([
     { name: "Major 1", value: "01" },
   ]);
+  const [optionSubmitStudent, setOptionSubmitStudent] = useState({});
+  const [optionSubmitTeacher, setOptionSubmitTeacher] = useState({});
 
-  const { name, email, point, birthday } = admission;
+  const { name, email, point, birthday, gender, aspirations_arr } = admission;
 
-  const optionSubmitStudent = {
-    name: name.trim(),
+  useEffect(() => {
+    setOptionSubmitStudent({
+      name: name.trim(),
+      email,
+      point: point.trim(),
+      birthday,
+      aspirations_arr: [...aspirationsStudent],
+      gender: gender === "01" ? "Male" : "Female",
+    });
+
+    setOptionSubmitTeacher({
+      name: name.trim(),
+      email,
+      birthday,
+      major: optionTeacher,
+      gender: gender === "01" ? "Male" : "Female",
+    });
+  }, [
+    name,
     email,
-    point: point.trim(),
+    point,
     birthday,
-    aspirations_arr: [...aspirationsStudent],
-  };
-  const optionSubmitTeacher = {
-    name: name.trim(),
-    email,
-    birthday,
-    major: optionTeacher,
-  };
+    gender,
+    aspirations_arr,
+    optionTeacher,
+    aspirationsStudent,
+  ]);
+
+  // useEffect(() => {
+  //   setOptionSubmitTeacher({
+  //     name: name.trim(),
+  //     email,
+  //     birthday,
+  //     major: optionTeacher,
+  //     gender: gender === "01" ? "Male" : "Female",
+  //   });
+  // }, [name, email, birthday, optionTeacher, gender]);
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -157,6 +184,15 @@ const Admission = () => {
             ) : (
               <BoxAdmissionTeacher teacherSelect={teacherSelect} />
             )}
+            <div className="select-box mt-3">
+              <label style={{ color: "#fff", paddingRight: "15px" }}>
+                Gender:
+              </label>
+              <select name="gender" value={gender} onChange={handleChangeInput}>
+                <option value="01">Male</option>
+                <option value="02">Female</option>
+              </select>
+            </div>
             <div className="user-box mt-4">
               <label style={{ top: "-20px" }}>Birthday</label>
               <input

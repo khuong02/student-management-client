@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Box, Grid } from "@mui/material";
 import { Doughnut } from "react-chartjs-2";
 
-const DoughnutDashboard = (props) => {
+const DoughnutChart = (props) => {
   const { data, classes, options, animation } = props;
   return (
     <Box className={classes.componentChildDashboard}>
@@ -56,15 +56,15 @@ const DoughnutDashboard = (props) => {
   );
 };
 
-DoughnutDashboard.propTypes = {
+DoughnutChart.propTypes = {
   data: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   options: PropTypes.object.isRequired,
   animation: PropTypes.object.isRequired,
 };
 
-DoughnutDashboard.defaultProps = {
+DoughnutChart.defaultProps = {
   data: [],
 };
 
-export default DoughnutDashboard;
+export default DoughnutChart;

@@ -22,8 +22,10 @@ const Auth = React.lazy(() => import("../auth/Auth"));
 
 const RouterContainer = () => {
   const auth = useSelector((state) => state.auth.token);
+
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+
   fetchData({ funcAction: callApiClasses });
   fetchData({ funcAction: getDataStudent });
   fetchData({ funcAction: callApiMajor });
@@ -35,6 +37,7 @@ const RouterContainer = () => {
     const getUser = async () => {
       try {
         if (!auth) return;
+
         const actionResult = await dispatch(getInfo());
         unwrapResult(actionResult);
       } catch (err) {

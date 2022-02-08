@@ -20,7 +20,19 @@ const initialState = {
 const user = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    userPending: (state) => {
+      state.loading = true;
+    },
+    updateUser: (state, action) => {
+      state.loading = false;
+      state.currentUser = {
+        ...state.currentUser,
+        name: action.payload.name,
+        birthday: action.payload.birthday,
+      };
+    },
+  },
   extraReducers: {
     [getInfo.pending]: (state) => {
       state.loading = true;
@@ -38,4 +50,5 @@ const user = createSlice({
 
 const { reducer } = user;
 
+export const { userPending, updateUser } = user.actions;
 export default reducer;

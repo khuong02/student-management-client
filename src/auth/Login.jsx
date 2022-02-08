@@ -51,8 +51,6 @@ const Login = () => {
         password,
       });
 
-      console.log(res)
-      
       if (res.status === 400) {
         dispatch(loginFailed(true));
         enqueueSnackbar(res.data.msg, { variant: "error" });
